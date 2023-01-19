@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Button, FormControl, RadioGroup,Radio,FormLabel, FormControlLabel} from "@mui/material";
+import urlJoin from 'url-join'
 
 const Question = (props) => {
-    const path = require('path');
     const [Listend, updateListend] = useState(false) //送信したら無効
     const [Finished, updateFinished] = useState(false) //送信したら無効
     const [value, setValue] = React.useState();
+    const url = 'https://melonps.github.io/gen_sum_graph/question_data';
 
     const handleChange = event => {
     // クリックされたら、valueの値をsetします。
@@ -20,7 +21,7 @@ const Question = (props) => {
 
     //画像のパス設定
     var image_path;
-    image_path = path.join('https://melonps.github.io/gen_sum_graph/question_data', String(props.id), String(props.q_id)+'.png')
+    image_path = urlJoin(url, String(props.id), String(props.q_id)+'.png')
     console.log(image_path)
     console.log(props.q_id)
 
