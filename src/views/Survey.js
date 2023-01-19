@@ -6,14 +6,17 @@ import {
     doc
 } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
+import Question from '../components/Question';
+import '../style/survey.css';
+import { Button} from "@mui/material";
+
 
 const Survey = () => {
     const location = useLocation();
     const Email = location.state['email'];
     const Id = String(location.state['id']);
     const [Questionarray, setQuestionarray] = useState([]);
-    const path = require('path');
-    const image_path = path.join('https://melonps.github.io/gen_sum_graph/sorce/ex_1', String(1)+'.png')
+    const [ans, setans] = useState([])
 
     useEffect(() => {
         // useEffect自体ではasyncの関数を受け取れないので内部で関数を定義して呼び出す。
@@ -28,16 +31,28 @@ const Survey = () => {
         read_data(Id);
     }, []);
 
+    const addans = (value) => {
+        var newans = [...ans, value];
+        setans(newans);
+    };
+
 
     return (
         <div>
-        
-        <h1>実験ページ</h1>
+            <div className='App-header'>
+                <h1 >実験ページ</h1>
+            </div>
+
             <p>{Email}</p>
             <p>{Id}</p>
             <p>{Questionarray}</p>
 
-            <img src={image_path} alt="question" />
+            <Question addans={addans} q_id={Questionarray[0]} idx={ "1" } id={Id} />
+            <Question addans={addans} q_id={Questionarray[1]} idx={ "2" }id={ Id } />
+            <h1>{ans}</h1>
+            <div class="d-grid gap-2">
+                <Button variant="contained" >回答を送信する</Button>
+            </div>
         </div>
     );
 };

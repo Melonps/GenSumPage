@@ -1,5 +1,14 @@
 .App {
   text-align: center;
+
+  background-color: #fcfffb;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #10120e
 }
 
 .App-logo {
@@ -14,28 +23,59 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #fcfffb;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #10120e
 }
-
 .App-link {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.form {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
+
+.imageQuestion {
+  width: 90%;
+  max-width: 1200px;
+}
+.container { 
+  text-align: center;
+}
+
+.title {
+  margin-top: 2%;
+  font-size: 3vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-bottom: 2px dotted rgb(94, 94, 94);
+  border-top: 2px dotted rgb(94, 94, 94);
+}
+
+.App-header {
+  margin-right: calc(50% - 50vw);
+  margin-left: calc(50% - 50vw);
+}
+
+
+.App-header img {
+  display: block;
+  width: 100%;
+  max-height: 56vw;
+  object-fit: cover;
+}
+
+
 
 li {
   list-style: none;

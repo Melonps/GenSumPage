@@ -1,27 +1,30 @@
 import React, { useState } from 'react';
-
+import { Button, FormControl, RadioGroup,Radio,FormLabel, FormControlLabel} from "@mui/material";
 
 const Question = (props) => {
     const path = require('path');
     const [Listend, updateListend] = useState(false) //送信したら無効
     const [Finished, updateFinished] = useState(false) //送信したら無効
-    const elementid = 'radioBox_' + String(props.q_id)
+    const [value, setValue] = React.useState();
+
+    const handleChange = event => {
+    // クリックされたら、valueの値をsetします。
+        setValue(event.target.value);
+        
+    };
+
+    function submit() {
+        props.addans(value);
+        updateFinished(!Finished)
+    } 
 
     //画像のパス設定
     var image_path;
-    image_path = path.join('https://melonps.github.io/gen_sum_graph/sorce/ex_1', String(props.q_id)+'.png')
+    image_path = path.join('https://melonps.github.io/gen_sum_graph/question_data', String(props.id), String(props.q_id)+'.png')
     console.log(image_path)
     console.log(props.q_id)
 
-    function onRadio() {
-        let form = document.getElementById(elementid);
-        let radioNodeList  = form.radiobox;
-        if (radioNodeList.value !== '') {
-            console.log(radioNodeList.value);
-            props.addans(radioNodeList.value);
-            updateFinished(!Finished)
-        }
-    }
+
     function audio() {
         document.getElementById('btn_audio').currentTime = 0; //連続クリックに対応
         document.getElementById('btn_audio').play(); //クリックしたら音を再生
@@ -30,38 +33,37 @@ const Question = (props) => {
     
 
     return (
-        <div>
-            <h1>質問{props.q_id}</h1>
+        <div class="outline">
+            <h1>質問{props.idx}</h1>
             <button className="btn btn-outline-primary" onClick={audio} disabled={Listend}>音声が流れます。</button>
             <audio id="btn_audio">
                 <source src="https://raw.githubusercontent.com/ytyaru/Audio.Sample.201708031714/master/20170803/wav/CMajor.wav" type="audio/mp3"/>
             </audio>
-
-            <div class="imageQuestion">
-                <img src={image_path} alt="question" />
+            <div class="box_image">
+                <img src={image_path} alt="question" class="imageQuestion"/>
             </div>
             
-            <form class="row mb-3" id={elementid}>
-                <div class="col">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radiobox" id="radio1" value="1"/>
-                        <label class="form-check-label" for="radio1">1</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radiobox" id="radio2" value="2"/>
-                        <label class="form-check-label" for="radio2">2</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radiobox" id="radio3" value="3"/>
-                        <label class="form-check-label" for="radio3">3</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radiobox" id="radio4" value="4"/>
-                        <label class="form-check-label" for="radio4">4</label>
-                    </div>
-                    <button type="button" class="btn btn-outline-info" onClick={onRadio}  disabled={Finished}>回答</button>
-                </div>
-            </form>
+            <div class="form">
+                <FormControl>
+                    <FormLabel>質問 {props.q_id} 選んでください</FormLabel>
+                    <RadioGroup
+                        row
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        defaultValue="female"
+                        name="radio-buttons-group"
+                        value={value}
+                        onChange={handleChange}
+                    >
+                        
+                        <FormControlLabel value="1" name="radiobox" control={<Radio />} label="1" />
+                        <FormControlLabel value="2" name="radiobox" control={<Radio />} label="2" />
+                        <FormControlLabel value="3" name="radiobox" control={<Radio />} label="3" />
+                        <FormControlLabel value="4" name="radiobox" control={<Radio />} label="4" />
+                        <FormControlLabel value="5" name="radiobox" control={<Radio />} label="分からない" />
+                        <Button variant="contained" onClick={submit} disabled = {Finished}>回答 </Button>
+                    </RadioGroup>
+                </FormControl>
+            </div>
         </div>
     );
     
