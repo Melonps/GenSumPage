@@ -22,8 +22,8 @@ const Question = (props) => {
     //画像のパス設定
     var image_path;
     image_path = urlJoin(url, String(props.id), String(props.q_id)+'.png')
-    console.log(image_path)
-    console.log(props.q_id)
+    //console.log(image_path)
+    //console.log(props.q_id)
 
 
     function audio() {
@@ -46,7 +46,7 @@ const Question = (props) => {
             
             <div class="form">
                 <FormControl>
-                    <FormLabel>質問 {props.q_id} 選んでください</FormLabel>
+                    <FormLabel>質問 {props.idx} 選んでください</FormLabel>
                     <RadioGroup
                         row
                         aria-labelledby="demo-radio-buttons-group-label"

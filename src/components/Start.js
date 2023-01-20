@@ -9,20 +9,23 @@ import {
     updateDoc,
     getDoc
 } from "firebase/firestore";
-import { Box, TextField, Button } from '@mui/material'
+import { Box, TextField, Button, FormControlLabel, FormGroup, Checkbox } from '@mui/material'
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import EmailIcon from '@mui/icons-material/Email';
 
 const Start = () => {
     const [Email, setEmail] = useState("");
     const [Error, setError] = useState("");
-    const navigate= useNavigate();
+    const [isChecked, setIsChecked] = useState(true)
+    const [passError, setPassError] = useState(true)
+    const auth = getAuth();
+    const navigate = useNavigate();
+    const provider = new GoogleAuthProvider();
 
     async function judge() {
-
-        
         const signuserRef = doc(db, "signin", Email);
-
+        
         await getDoc(signuserRef).then((documentSnapshot) => {
             if (documentSnapshot.exists()) {
                 console.log('Document data:', documentSnapshot.data());
@@ -30,6 +33,7 @@ const Start = () => {
                 setError(text)
             } else {
                 console.log('No such document!');
+                signInWithPopup(auth, provider)
                 setDoc(signuserRef, {
                     email: Email,
                     timestamp: serverTimestamp()
@@ -43,11 +47,10 @@ const Start = () => {
     };
     async function addmail() {
         const signindata = collection(db, "signin");
-
                 
         const snapshot = await getCountFromServer(signindata)
-        console.log(snapshot.data().count)
-        const Index = snapshot.data().count
+        console.log(snapshot.data().count+1)
+        const Index = snapshot.data().count+1
 
         const usersDocRef = doc(db, "users", String(Index));
 
@@ -59,20 +62,37 @@ const Start = () => {
         navigate('/survey', {state: {email:Email ,id:Index}});
     };
 
+    const toggleCheckbox = () => {
+        setIsChecked(!isChecked)
+    }
+    const handleBlur = (e) => {
+        const pass = e.target.value
+        if (!pass) {
+            setPassError('メールアドレスを入力してください')
+        } else if (pass.length < 1) {   
+            setPassError('メールアドレスを入力してください')
+        } else {
+            setPassError()
+        }
+    }
 
 
 
     return (
         <>
+            <FormGroup>
+                <FormControlLabel control={<Checkbox />} label="研究に協力することを承諾します。" onChange={() => toggleCheckbox()}/>
+            </FormGroup>
             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                 <EmailIcon  sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                <TextField id="input-with-sx" label="メールアドレス" variant="standard"
+                <TextField id="input-with-sx" label="メールアドレス" variant="standard" onBlur={handleBlur}
                     onChange={(e) => {
                         setEmail(e.target.value)
                     }}/>
-                <Button variant="contained" onClick={judge}>実験開始 </Button>
+                <Button variant="contained" onClick={judge} disabled = {isChecked}>実験開始 </Button>
             </Box>
-            <p>{ Error }</p>
+            {passError && <p>{passError}</p>}
+            <p>{Error}</p>
         </>
     );
 };

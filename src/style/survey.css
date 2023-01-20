@@ -12,3 +12,23 @@
     /*5px=影の広がり具合*/
     padding: 0.5em 0.5em 0.5em 2em;
 }
+
+.Survey-header {
+    background-color: #fcfffb;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: #10120e;
+
+}
+
+.about_ex p {
+    font-size: 0.8em;
+}
+
+.box_image {
+    padding-top: 1em;
+}

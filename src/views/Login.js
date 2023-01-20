@@ -4,12 +4,16 @@ import headerimg from '../images/barchart.jpg';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import '../style/login.css';
 
+import BlockBrowserBack from '../components/BlockBrowserBack';
+
+
 const Login = () => {
 
 
     return (
         
         <div>
+            <BlockBrowserBack/>
             <div className='App-header'>
                 <img src={headerimg} className="header-logo" alt="logo" />
                 <h1 class="title">グラフの要約文に関するデータ収集</h1>
@@ -34,14 +38,39 @@ const Login = () => {
                     <ol>
                         <li><CheckOutlinedIcon/>本研究への協力は本人の自由意志によるものであり、強制するものではありません。</li>
                         <li><CheckOutlinedIcon/>本研究への協力を拒否しても、なんら不利益を被ることはなく、いつでも中止できます。</li>
+                        <li><CheckOutlinedIcon/>本研究で収集したデータは、本研究およびそれに関連する研究以外には使用しません。</li>
+                        <li><CheckOutlinedIcon />本研究結果は論文等で発表しますが、個人が特定されることは一切ありません。</li>
+                        <li><CheckOutlinedIcon/>研究終了後、個人が特定できるようなデータは全て破棄します。</li>
+                    </ol>
+                </div>
+                <div className='section'>
+                    <h3>５.問い合わせ先</h3>
+                    <p>大阪公立大学　大学院情報学研究科　基幹情報学専攻　准教授　岩村雅一
+                    </p>
+                    <ol>
+                        <li>住所：〒599-8531　大阪府堺市中区学園町1-1</li>
+                        <li>電話番号：072-254-9277</li>
+                        <li>メールアドレス：masa.i@omu.ac.jp</li>
+                    </ol>
+                    <p>大阪公立大学　大学院情報学研究科　基幹情報学専攻　学士4年　筧万里</p>
+                    <ol>
+                        <li>メールアドレス：kakehi@m.cs.osakafu-u.ac.jp</li>
                     </ol>
                 </div>
             </div>
             <div className='consent'>
-                <h1>研究協力承諾書</h1>
-                <p>
-                    １．私は上記の文書を読み、研究の目的、研究協力の方法、報酬、個人情報の扱い、倫理的配慮について理解しました。 
-                </p>
+                <div className='section'>
+                    <h1>研究協力承諾書</h1>
+                    <p>宛先：大阪公立大学 大学院情報学研究科 基幹情報学専攻 准教授 岩村雅一</p>
+                    <ol>
+                        <li><CheckOutlinedIcon />私は上記の文書を読み、研究の目的、研究協力の方法、報酬、個人情報の扱い、倫理的配慮について理解しました。 </li>
+                        <li><CheckOutlinedIcon/>この研究によって得られたデータは厳重に管理されること、個人のプライバシーが守られること、個人が特定されないかたちで研究結果が公表されることを理解しました。 </li>
+                        <li><CheckOutlinedIcon />研究への参加は強制されるものではなく自由意志に基づくものであり、研究に参加した後でも、いつでも自由に研究への参加を止めることができること、そしてこのことによって、不利益を被ることは一切ないことを理解しました。 </li>
+                    </ol>
+                    
+                </div>
+                
+                
                 <Start/>
             </div>
         </div>
