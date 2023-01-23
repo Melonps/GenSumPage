@@ -18,6 +18,7 @@ const Start = () => {
     const [Email, setEmail] = useState("");
     const [Error, setError] = useState("");
     const [isChecked, setIsChecked] = useState(true)
+    const [isChecked2, setIsChecked2] = useState(true)
     const [passError, setPassError] = useState(true)
     const [Questionarray, setQuestionarray] = useState();
     const auth = getAuth();
@@ -94,6 +95,9 @@ const Start = () => {
     const toggleCheckbox = () => {
         setIsChecked(!isChecked)
     }
+    const toggleCheckbox2 = () => {
+        setIsChecked2(!isChecked2)
+    }
     const handleBlur = (e) => {
         const pass = e.target.value
         if (!pass) {
@@ -111,6 +115,7 @@ const Start = () => {
         <>
             <FormGroup>
                 <FormControlLabel control={<Checkbox />} label="研究に協力することを承諾します。" onChange={() => toggleCheckbox()}/>
+                <FormControlLabel control={<Checkbox />} label="このページをPCで表示しています。" onChange={() => toggleCheckbox2()}/>
             </FormGroup>
             
             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -119,7 +124,7 @@ const Start = () => {
                     onChange={(e) => {
                         setEmail(e.target.value)
                     }} />
-                <Button variant="contained" onClick={judge} disabled = {isChecked}>実験開始 </Button>
+                <Button variant="contained" onClick={judge} disabled = {isChecked || isChecked2 }>実験開始 </Button>
                 
             </Box>
             
