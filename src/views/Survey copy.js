@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { db } from "../firebase";
 import {
+    collection,
+    getDoc,
     doc,
     updateDoc
 } from "firebase/firestore";
@@ -24,16 +26,16 @@ import s4 from '../images/c4.PNG'
 import s5 from '../images/c5.PNG'
 import test from '../images/test.mp3'
 
+import urlJoin from 'url-join'
+
 const Survey = () => {
     const location = useLocation();
     const Id = String(location.state['id']);
-    const Questionarray = location.state['QuestionIdx']
-    //console.log(Questionarray)
+    const [Questionarray, setQuestionarray] = useState([]);
 
     const [index, setIndex] = useState();
     const [testListend, updatetestListend] = useState(false) //送信したら無効
     const [Started, setStarted] = useState(false)
-    const [Ended, setEnded] = useState(false)
     const navigate = useNavigate();
     const usersDocRef = doc(db, "users", Id);
 
@@ -43,6 +45,9 @@ const Survey = () => {
     const [name, setname] = useState();
     const [address, setaddress] = useState();
 
+    const url = urlJoin('https://raw.githubusercontent.com/Melonps/gen_sum_graph/master/question_data', String(1),String(1));
+
+    var audio_path = url+'.mp3'
     useEffect(() => {
         // useEffect自体ではasyncの関数を受け取れないので内部で関数を定義して呼び出す。
         if (!location.state['confirmed']) {
@@ -50,7 +55,18 @@ const Survey = () => {
             navigate('/' ,{ replace: true });
         } 
         window.scrollTo(0, 0)
+        const read_data = async (value) => {
+            const userdata = (collection(db, "users"));
+            const usersDocRefId = doc(userdata, value);
+            const usersDocId = await getDoc(usersDocRefId);
+            const usersDataId = usersDocId.data();
 
+            setQuestionarray(usersDataId.QuestionIdx);
+            setStarted(usersDataId.start);
+
+        };
+
+        read_data(Id);
         if (Started)  {
             navigate('/thankyou');
         }
@@ -77,7 +93,7 @@ const Survey = () => {
     };
 
     async function Surveystart() {
-        if (Started && Ended)  {
+        if (Started)  {
             navigate('/thankyou');
         } else {
             addnext(1);
@@ -98,15 +114,24 @@ const Survey = () => {
             name: name,
             address: address
         });
-        setEnded(true)
         navigate('/thankyou')
     };
 
+
+    function audio() {      
+        document.getElementById('btn_audio').currentTime = 0; //連続クリックに対応
+        document.getElementById('btn_audio').play(); //クリックしたら音を再生
+    }
 
     return (
         <div>
             <div className='Survey-header'>
                 <h1 >実験ページ</h1>
+                <button className="btn btn-outline-primary" onClick={audio} >音声が流れます。</button>
+                <audio id="btn_audio">
+                    <source src= { audio_path } type="audio/mp3"/>
+                </audio>
+                <audio controls src={ audio_path  } ></audio>
             </div>
             
             <div className='aboutline'>

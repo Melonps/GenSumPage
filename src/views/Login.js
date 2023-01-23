@@ -9,7 +9,6 @@ import BlockBrowserBack from '../components/BlockBrowserBack';
 
 const Login = () => {
 
-
     return (
         
         <div>

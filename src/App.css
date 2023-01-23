@@ -30,8 +30,23 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: #10120e
+  color: #10120e;
+  animation-name: fadeInAnime;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  opacity: 0;
 }
+
+@keyframes fadeInAnime {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -51,16 +66,7 @@
   text-align: center;
 }
 
-.title {
-  margin-top: 2%;
-  font-size: 3vw;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-bottom: 2px dotted rgb(94, 94, 94);
-  border-top: 2px dotted rgb(94, 94, 94);
-}
+
 
 .App-header {
   margin-right: calc(50% - 50vw);
@@ -68,12 +74,6 @@
 }
 
 
-.App-header img {
-  display: block;
-  width: 100%;
-  max-height: 56vw;
-  object-fit: cover;
-}
 
 
 
