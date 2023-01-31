@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css?family=M+PLUS+1p:wght@300;400;700&display=swap');
 
 
 body {
   margin: 0;
-  font-family: -apple-system, 'Noto Sans JP', BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: -apple-system, "M PLUS 1p",'Noto Sans JP', BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;

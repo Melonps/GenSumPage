@@ -1,6 +1,5 @@
 .App {
   text-align: center;
-
   background-color: #fcfffb;
   min-height: 100vh;
   display: flex;
@@ -8,7 +7,8 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: #10120e
+  color: #10120e;
+  overflow-x: hidden;
 }
 
 .App-logo {
@@ -23,18 +23,21 @@
 }
 
 .App-header {
-  background-color: #fcfffb;
+  background:url("./images/barchart.jpg") no-repeat center center ;
+  background-size: cover;
   min-height: 100vh;
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(9px + 2vmin);
   color: #10120e;
+  
+  opacity: 0;
+  margin-right: calc(50% - 50vw);
+  margin-left: calc(50% - 50vw);
   animation-name: fadeInAnime;
   animation-duration: 2s;
   animation-fill-mode: forwards;
-  opacity: 0;
 }
 
 @keyframes fadeInAnime {
@@ -58,22 +61,10 @@
   text-align: center;
 }
 
-.imageQuestion {
-  width: 90%;
-  max-width: 1200px;
-}
+
 .container { 
   text-align: center;
 }
-
-
-
-.App-header {
-  margin-right: calc(50% - 50vw);
-  margin-left: calc(50% - 50vw);
-}
-
-
 
 
 

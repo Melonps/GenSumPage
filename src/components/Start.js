@@ -10,9 +10,9 @@ import {
     getDoc
 } from "firebase/firestore";
 import { Box, TextField, Button, FormControlLabel, FormGroup, Checkbox } from '@mui/material'
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import EmailIcon from '@mui/icons-material/Email';
+import Loading from './Loading';
 
 const Start = () => {
     const [Email, setEmail] = useState("");
@@ -20,36 +20,40 @@ const Start = () => {
     const [isChecked, setIsChecked] = useState(true)
     const [isChecked2, setIsChecked2] = useState(true)
     const [passError, setPassError] = useState(true)
-    const [Questionarray, setQuestionarray] = useState();
-    const auth = getAuth();
+    const [isLoading, setIsLoading] = useState(false);
+    
+    var pattern = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+.[A-Za-z0-9]+$/;
+
     const navigate = useNavigate();
-    const provider = new GoogleAuthProvider();
-    var next = 0
 
     async function judge() {
+        setIsLoading(true);
+        
+        const signindata = collection(db, "signin"); 
+        const snapshot = await getCountFromServer(signindata);
+        console.log(snapshot.data().count + 1);
+        const Index = snapshot.data().count + 1;
         const signuserRef = doc(db, "signin", Email);
         await getDoc(signuserRef).then((documentSnapshot) => {
             if (documentSnapshot.exists()) {
+                setIsLoading(false);
                 console.log('Document data:', documentSnapshot.data());
                 const text = "メールアドレス" + documentSnapshot.data().email + "は既に登録されているようです";
                 setError(text)
             } else {
+                
                 console.log('No such document!');
-                signInWithPopup(auth, provider)
                 setDoc(signuserRef, {
                     email: Email,
                     timestamp: serverTimestamp()
                 });
-                next = 1
-                //addmail()
+                
+                sendData(Index);
+
             }
         });
-        if (next) {
-            const signindata = collection(db, "signin"); 
-            const snapshot = await getCountFromServer(signindata)
-            console.log(snapshot.data().count+1)
-            const Index = snapshot.data().count + 1
-            
+    };
+    async function sendData(Index) {
             const userdata = (collection(db, "users"));
             const usersDocRefId = doc(userdata, String(Index));
             const usersDocId = await getDoc(usersDocRefId);
@@ -62,35 +66,9 @@ const Start = () => {
                 email: Email,
                 read: true
             });
+            setIsLoading(false);
             navigate('/survey', {state: {confirmed:true ,id:Index, QuestionIdx: usersDocId.data().QuestionIdx}});
-        };
-        
-        
-    };
-    async function addmail() {
-        const signindata = collection(db, "signin");
-                
-        const snapshot = await getCountFromServer(signindata)
-        console.log(snapshot.data().count+1)
-        const Index = snapshot.data().count+1
-
-        
-        const userdata = (collection(db, "users"));
-        const usersDocRefId = doc(userdata, String(Index));
-        const usersDocId = await getDoc(usersDocRefId);
-        const usersDataId = usersDocId.data();
-
-        setQuestionarray(usersDataId.QuestionIdx);
-        console.log(Questionarray)
-
-        const usersDocRef = doc(db, "users", String(Index));
-        await updateDoc(usersDocRef, {
-            email: Email,
-            read: true
-        });
-                    
-        //navigate('/survey', {state: {confirmed:true ,id:Index, QuestionIdx: Questionarray}});
-    };
+    }
 
     const toggleCheckbox = () => {
         setIsChecked(!isChecked)
@@ -102,7 +80,7 @@ const Start = () => {
         const pass = e.target.value
         if (!pass) {
             setPassError('メールアドレスを入力してください')
-        } else if (pass.length < 1) {   
+        } else if (!pattern.test(pass)) {   
             setPassError('メールアドレスを入力してください')
         } else {
             setPassError()
@@ -115,7 +93,7 @@ const Start = () => {
         <>
             <FormGroup>
                 <FormControlLabel control={<Checkbox />} label="研究に協力することを承諾します。" onChange={() => toggleCheckbox()}/>
-                <FormControlLabel control={<Checkbox />} label="このページをPCで表示しています。" onChange={() => toggleCheckbox2()}/>
+                <FormControlLabel control={<Checkbox />} label="このページをPCで、かつ全画面で表示しています。" onChange={() => toggleCheckbox2()}/>
             </FormGroup>
             
             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -130,6 +108,7 @@ const Start = () => {
             
             {passError && <p>{passError}</p>}
             <p>{Error}</p>
+            { isLoading ? <Loading /> : <br/> }
         </>
     );
 };

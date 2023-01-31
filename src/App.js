@@ -13,7 +13,6 @@ const App = () => {
 
   return (
     <div className='App'>
-      <div className="whole">
         <div className="container">
           <BrowserRouter>
             <Routes>
@@ -22,7 +21,6 @@ const App = () => {
               <Route path={`/thankyou/`} element={<Thankyou />} />
             </Routes>
           </BrowserRouter>
-        </div>
         </div>
     </div>
   );
