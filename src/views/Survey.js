@@ -30,6 +30,7 @@ const Survey = () => {
     const location = useLocation();
     const Id = String(location.state['id']);
     const Questionarray = location.state['QuestionIdx']
+    const Email = location.state['email']
     //console.log(Questionarray)
 
     const [index, setIndex] = useState();
@@ -102,20 +103,16 @@ const Survey = () => {
             window.scrollTo({
                 top: 1200, behavior: 'smooth'
             })
-            var usersDocRef = doc(db, "users", Id);
-            await updateDoc(usersDocRef, {
-            start: true,
-            });
             setStarted(true)
-
         }
         
         
     };
 
     async function Surveyend() {
-        var usersDocRef = doc(db, "users", Id);
-        await updateDoc(usersDocRef, {
+        const signuserRef = doc(db, "signin", Email);
+        await updateDoc(signuserRef, {
+            id: Id,
             answer: ans,
             end: true,
             name: name,

@@ -47,13 +47,11 @@ const Question = (props) => {
         
     } 
 
-
     //画像のパス設定
     //var image_path = url+'.png'
     //console.log(image_path)
     //console.log(props.q_id)
     //var audio_path = url+'.mp3'
-
 
     function audio2() {   
         console.log(audio)

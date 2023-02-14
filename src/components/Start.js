@@ -19,6 +19,7 @@ const Start = () => {
     const [Error, setError] = useState("");
     const [isChecked, setIsChecked] = useState(true)
     const [isChecked2, setIsChecked2] = useState(true)
+    const [isChecked3, setIsChecked3] = useState(true)
     const [passError, setPassError] = useState(true)
     const [isLoading, setIsLoading] = useState(false);
     
@@ -48,12 +49,12 @@ const Start = () => {
                     timestamp: serverTimestamp()
                 });
                 
-                sendData(Index);
+                sendData(Index, Email);
 
             }
         });
     };
-    async function sendData(Index) {
+    async function sendData(Index, Email) {
             const userdata = (collection(db, "users"));
             const usersDocRefId = doc(userdata, String(Index));
             const usersDocId = await getDoc(usersDocRefId);
@@ -61,13 +62,13 @@ const Start = () => {
 
             console.log(usersDocId.data().QuestionIdx)
 
-            const usersDocRef = doc(db, "users", String(Index));
-            await updateDoc(usersDocRef, {
-                email: Email,
+        
+            const signuserRef = doc(db, "signin", Email);
+            await updateDoc(signuserRef, {
                 read: true
             });
             setIsLoading(false);
-            navigate('/survey', {state: {confirmed:true ,id:Index, QuestionIdx: usersDocId.data().QuestionIdx}});
+            navigate('/survey', {state: {confirmed:true ,email:Email, id:Index, QuestionIdx: usersDocId.data().QuestionIdx}});
     }
 
     const toggleCheckbox = () => {
@@ -76,14 +77,16 @@ const Start = () => {
     const toggleCheckbox2 = () => {
         setIsChecked2(!isChecked2)
     }
+    
     const handleBlur = (e) => {
         const pass = e.target.value
         if (!pass) {
             setPassError('メールアドレスを入力してください')
         } else if (!pattern.test(pass)) {   
-            setPassError('メールアドレスを入力してください')
+            setPassError('メールアドレスにマッチしていません')
         } else {
             setPassError()
+            setIsChecked3(!isChecked3)
         }
     }
 
@@ -102,7 +105,7 @@ const Start = () => {
                     onChange={(e) => {
                         setEmail(e.target.value)
                     }} />
-                <Button variant="contained" onClick={judge} disabled = {isChecked || isChecked2 }>実験開始 </Button>
+                <Button variant="contained" onClick={judge} disabled = {isChecked || isChecked2 || isChecked3 }>実験開始 </Button>
                 
             </Box>
             
