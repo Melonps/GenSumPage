@@ -1,0 +1,84 @@
+.outline {
+    background-color: #fcfffb;
+    min-height: 98vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: #10120e;
+    border-radius: 8px;
+    /*角の丸み*/
+    box-shadow: 0px 0px 5px silver;
+    /*5px=影の広がり具合*/
+    padding: 2em 2em 2em 2em;
+}
+
+.aboutline {
+    background-color: #fcfffb;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: #10120e;
+    border-radius: 8px;
+    /*角の丸み*/
+    box-shadow: 0px 0px 5px silver;
+    /*5px=影の広がり具合*/
+}
+.aboutline p ,h2{
+    color: #10120e;
+}
+
+.Survey-header {
+    background-color: #fcfffb;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: #10120e;
+    padding: 0.5em 0.5em 0.5em 2em;
+}
+
+.next {
+    background-color: #fcfffb;
+    min-height: 40vh;
+    min-width: 40vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: #10120e;
+    padding: 0.5em 0.5em 0.5em 2em;
+    border-radius: 8px;
+    /*角の丸み*/
+    box-shadow: 0px 0px 5px silver;
+    /*5px=影の広がり具合*/
+    padding: 0.5em 0.5em 0.5em 0.5em;
+}
+
+.about_ex p {
+    font-size: 0.7em;
+}
+
+.box_image {
+    padding-top: 1em;
+}
+
+.inCarousel {
+    margin: auto;
+    object-fit: cover;
+    max-width: 100%;
+}
+
+.annotation p {
+    font-size: 0.8em;
+}
+
+.imageQuestion {
+    width: 90%;
+    max-width: 700px;
+}
