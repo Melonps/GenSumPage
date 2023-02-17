@@ -1,5 +1,6 @@
 import React from 'react';
 import Start from '../components/Start'
+import MailTest from '../components/MailTest';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import '../style/login.css';
 
@@ -7,7 +8,8 @@ import BlockBrowserBack from '../components/BlockBrowserBack';
 
 
 const Login = () => {
-    
+
+
     return (
         
         <div>
@@ -40,8 +42,8 @@ const Login = () => {
                     <ol>
                         <li><CheckOutlinedIcon/>本研究への協力は本人の自由意志によるものであり、強制するものではありません。</li>
                         <li><CheckOutlinedIcon/>本研究への協力を拒否しても、なんら不利益を被ることはなく、いつでも中止できます。</li>
-                        <li><CheckOutlinedIcon/>本研究で収集したデータは、本研究およびそれに関連する研究以外には使用しません。</li>
-                        <li><CheckOutlinedIcon />本研究結果は論文等で発表しますが、個人が特定されることは一切ありません。</li>
+                        <li><CheckOutlinedIcon/>本研究のデータは、本研究に参加する研究者のみがアクセス出来るコンピュータやサーバに保管し、本研究およびそれに関連する研究以外には使用しません。</li>
+                        <li><CheckOutlinedIcon/>本研究結果は論文等で発表しますが、個人が特定されることは一切ありません。</li>
                         <li><CheckOutlinedIcon/>研究終了後、個人が特定できるようなデータは全て破棄します。</li>
                     </ol>
                 </div>
