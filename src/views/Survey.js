@@ -14,6 +14,7 @@ import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutli
 import '../style/survey.css';
 import { Box, Stack, TextField, Button, Container } from '@mui/material'
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import CallIcon from '@mui/icons-material/Call';
 
 import Carousel from 'react-bootstrap/Carousel';
 
@@ -45,8 +46,9 @@ const Survey = () => {
     const [showidx, setshowidx] = useState([]);
     const [time, settime] = useState([]);
 
-    const [name, setname] = useState([]);
-    const [address, setaddress] = useState();
+    const [name, setname] = useState("");
+    const [address, setaddress] = useState("")
+    const [phonenumber, setphonenumber] = useState();
 
 
     useEffect(() => {
@@ -119,6 +121,7 @@ const Survey = () => {
             address: address,
             reason: reason,
             time: time,
+            phonenumber: phonenumber
         });
         setEnded(true)
         navigate('/thankyou')
@@ -269,7 +272,7 @@ const Survey = () => {
                         <Container maxWidth="md" sx={{ pt: 5 }}>
                             <h3>謝金の支払いに必要な個人情報の入力</h3>
                             <p>ここで入力していただく情報は謝金のお支払いのために用い、実験には使用しません。
-                                氏名、住所を正しく記載していただけない場合は、謝金のお支払いができませんので、ご注意ください。</p>
+                                氏名、電話番号、住所を正しく記載していただけない場合は、謝金のお支払いができませんので、ご注意ください。</p>
                             <Stack spacing={3}>
                                 <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                     <DriveFileRenameOutlineIcon  sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
@@ -278,16 +281,23 @@ const Survey = () => {
                                     }}/>
                                 </Box>
                                 <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                                    <CallIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                    <TextField required label="電話番号" variant="standard" onChange={(e) => {
+                                        setphonenumber(e.target.value)
+                                    }}/>
+                                </Box> 
+                                <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                     <LocationOnIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                                     <TextField required label="住所" variant="standard" onChange={(e) => {
                                         setaddress(e.target.value)
                                     }}/>
                                 </Box>
+                                <Button variant="contained" onClick={Surveyend}>回答を送信する</Button>
                             </Stack>
                         </Container>
                     </div>
                     <div className="d-grid gap-2">
-                        <Button variant="contained" onClick={Surveyend}>回答を送信する</Button>
+                        
                     </div>
                 </div>
                 

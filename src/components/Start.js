@@ -25,10 +25,11 @@ const Start = () => {
     const [isChecked4, setIsChecked4] = useState(true)
     const [responsedText, setresponsedText] = useState("")
     const [passError, setPassError] = useState(true)
+    const [mailError, setMailError] = useState(true)
     const [isLoading, setIsLoading] = useState(false);
     
     var pattern = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+.[A-Za-z0-9]+$/;
-    const pass_pattern = 158;
+    const pass_pattern = process.env.REACT_APP_PASSWORD;
 
     const navigate = useNavigate();
 
@@ -85,14 +86,15 @@ const Start = () => {
     }
     
     const handleBlur = (e) => {
-        const pass = e.target.value
-        if (!pass) {
-            setPassError('メールアドレスを入力してください')
-        } else if (!pattern.test(pass)) {   
-            setPassError('メールアドレスにマッチしていません')
+        const mail = e.target.value
+        if (!mail) {
+            setMailError('メールアドレスを入力してください')
+        } else if (!pattern.test(mail)) {   
+            setMailError('メールアドレスにマッチしていません')
+            setIsChecked3(true)
         } else {
-            setPassError()
-            setIsChecked3(!isChecked3)
+            setMailError('')
+            setIsChecked3(false)
         }
     }
 
@@ -100,11 +102,12 @@ const Start = () => {
         const pass = e.target.value
         if (!pass) {
             setPassError('パスワードを入力してください')
-        } else if (pass === pass_pattern) {   
+        } else if (pass === pass_pattern) {  
+            setPassError('')
+            setIsChecked4(false)
+        } else{
             setPassError('パスワードにマッチしていません')
-        } else {
-            setPassError()
-            setIsChecked4(!isChecked4)
+            setIsChecked4(true)
         }
     }
 
@@ -170,27 +173,22 @@ const Start = () => {
                 <Button variant="contained" onClick={sendMail} disabled = {isChecked || isChecked2 || isChecked3 }>メール送信 </Button>
                 
             </Box>
+            {mailError && <FormLabel>{mailError}</FormLabel>}
+            <FormLabel>{Error}</FormLabel>
             <Box sx={{ p: 1 }} >
                 <FormLabel>{ responsedText }</FormLabel>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'flex-end' }} >
                 
                 <LockOpenIcon   sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                <TextField id="input-with-sx" label="password" variant="standard" onBlur={handleBlur2} type="email"
-                    onChange={(e) => {
-                        setEmail(e.target.value)
-                    }} />
-
-            </Box>
-            
-            
-            <Box sx={{ p: 4 }} >
+                <TextField id="input-with-sx" label="password" variant="standard" onBlur={handleBlur2} type="password"
+                    />
                 <Button variant="contained" width="full" onClick={judge} disabled = { isChecked || isChecked2 || isChecked3 || isChecked4 }>実験開始 </Button>
             </Box>
             
             
-            {passError && <p>{passError}</p>}
-            <p>{Error}</p>
+            
+            {passError && <FormLabel>{passError}</FormLabel>}
             { isLoading ? <Loading /> : <br/> }
         </>
     );
