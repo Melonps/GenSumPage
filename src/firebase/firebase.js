@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
+
 import 'firebase/app-check'
 
 const firebaseConfig = {
@@ -12,7 +12,7 @@ const firebaseConfig = {
     appId: process.env.REACT_APP_API_APPID,
 };
 
-const app = initializeApp(firebaseConfig).firebase//.appCheck().activate('6LdKKY4kAAAAAAh_e7RouLEk9jNNixfAbQ1yTvl3');
+const app = initializeApp(firebaseConfig).firebase.appCheck().activate(process.env.REACT_APP_PUBLIC_KEY);
 
 
 export const db = getFirestore(app);
