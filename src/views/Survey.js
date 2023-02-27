@@ -22,7 +22,6 @@ import Carousel from 'react-bootstrap/Carousel';
 import s0 from '../images/c0.PNG'
 import s1 from '../images/c1.PNG'
 import s2 from '../images/c2.PNG'
-import s3 from '../images/c3.PNG'
 import s4 from '../images/c4.PNG'
 import s5 from '../images/c5.PNG'
 import test from '../images/test.mp3'
@@ -89,7 +88,6 @@ const Survey = () => {
         settime(newtime);
     }
 
-    
 
     function testaudio() {
         document.getElementById('test_audio').currentTime = 0; //連続クリックに対応
@@ -116,7 +114,7 @@ const Survey = () => {
         await updateDoc(signuserRef, {
             id: Id,
             answer: ans,
-            end: true,
+            isend: true,
             name: name,
             address: address,
             reason: reason,
@@ -144,56 +142,46 @@ const Survey = () => {
                         <Carousel.Item >
                             <img className='inCarousel' src={s0} alt="aaa" />
                             <Carousel.Caption>
-                            <h2>実験上の注意</h2>
+                            <h2 className="ex"><span>実験上の注意</span></h2>
                             </Carousel.Caption>
                         </Carousel.Item>
                         <Carousel.Item >
                             <img className='inCarousel' src={s1} alt="aaa" />
                             <Carousel.Caption>
-                            <h2>ブラウザバックやリロードをしないでください</h2>
-                                <p>データの重複を防止するためです。<br />
-                                報酬のための情報が届かなくなります。
-                                </p>
+                            <h2 className="ex"><span>ブラウザバックやリロードをしないでください</span></h2>
+                            <p className="ex"><span>データの重複を防止するためです。<br />
+                            報酬のための情報が届かなくなります。</span>
+                            </p>
                             </Carousel.Caption>
                         </Carousel.Item>
                         <Carousel.Item >
                             <img className='inCarousel' src={s2} alt="aaa" />
 
                             <Carousel.Caption>
-                            <h2>音声は一度しか流れません。</h2>
-                            <p>下のボタンで音声が流れるかのテストをしてから開始してください</p>
+                            <h2 className="ex"><span>音声は一度しか流れません。</span></h2>
+                            <p className="ex"><span>下のボタンで音声が流れるかのテストをしてから</span><span>開始してください</span></p>
                             <Button variant="contained" onClick={testaudio} >音声テスト</Button>
                             <audio id="test_audio">
                                 <source src={test} type="audio/mp3"/>
                             </audio>
                             </Carousel.Caption>
                         </Carousel.Item>
-                        <Carousel.Item>
-                            <img className='inCarousel' src={s3} alt="aaa" />
-                            <Carousel.Caption>
-                            <h2>順番通りの回答をお願いします</h2>
-                            <p>
-                                ご協力をお願いします。
-                            </p>
-                            </Carousel.Caption>
-                        </Carousel.Item>
                         <Carousel.Item >
                             <img className='inCarousel' src={s4} alt="aaa" />
                             <Carousel.Caption>
-                            <h2>報酬について</h2>
-                            <p>
-                                全ての問題に回答して頂いた後、謝金のお支払いのための情報を入力して頂きます。
-                                </p>
-                            <p>回答が足りてないと報酬のお支払いができないのでご注意ください</p>
+                            <h2 className="ex"><span>報酬について</span></h2>
+                            <p className="ex"><span>全ての問題に回答して頂いた後、</span><span>謝金のお支払いのための情報を入力して頂きます。<br/></span>
+                                <span>回答が足りてないと</span><span>報酬のお支払いができないのでご注意ください</span>
+                            </p>
                             </Carousel.Caption>
                         </Carousel.Item>
                         <Carousel.Item >
                             <img className='inCarousel' src={s5} alt="aaa" />
                             <Carousel.Caption>
-                            <h2>ご協力ありがとうございます</h2>
-                            <p>
-                                下のボタンから実験を始めてください。
-                                </p>
+                            <h2 className="ex"><span>ご協力ありがとうございます</span></h2>
+                            <p className="ex">
+                                <span>下のボタンから実験を始めてください。</span>
+                            </p>
                             <Button variant="contained" onClick={Surveystart} >実験を開始する</Button>
                             </Carousel.Caption>
                         </Carousel.Item>
@@ -272,12 +260,19 @@ const Survey = () => {
                         <Container maxWidth="md" sx={{ pt: 5 }}>
                             <h3>謝金の支払いに必要な個人情報の入力</h3>
                             <p>ここで入力していただく情報は謝金のお支払いのために用い、実験には使用しません。
-                                氏名、電話番号、住所を正しく記載していただけない場合は、謝金のお支払いができませんので、ご注意ください。</p>
+                                氏名、住所、電話番号を正しく記載していただけない場合は、謝金のお支払いができませんので、ご注意ください。</p>
                             <Stack spacing={3}>
                                 <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                     <DriveFileRenameOutlineIcon  sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                                     <TextField required label="お名前" variant="standard" onChange={(e) => {
                                         setname(e.target.value)
+                                    }}/>
+                                </Box>
+                                
+                                <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                                    <LocationOnIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                    <TextField required label="住所" variant="standard" onChange={(e) => {
+                                        setaddress(e.target.value)
                                     }}/>
                                 </Box>
                                 <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -286,12 +281,6 @@ const Survey = () => {
                                         setphonenumber(e.target.value)
                                     }}/>
                                 </Box> 
-                                <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                                    <LocationOnIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                                    <TextField required label="住所" variant="standard" onChange={(e) => {
-                                        setaddress(e.target.value)
-                                    }}/>
-                                </Box>
                                 <Button variant="contained" onClick={Surveyend}>回答を送信する</Button>
                             </Stack>
                         </Container>

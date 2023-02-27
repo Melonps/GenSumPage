@@ -28,6 +28,26 @@
 }
 .aboutline p ,h2{
     color: #10120e;
+    font-size: calc(6px + 4vmin);
+}
+
+p.ex{
+    color: #4b619f;
+    
+    font-size: calc(2px + 4vmin);
+    
+}
+
+.ex span{
+    background: linear-gradient(transparent 0%, #cbcbcbbf 0%);
+    display: inline-block;
+}
+
+h2.ex{
+    color: #4b619f;
+    font-size: calc(7px + 3vmin);
+    background: #cbcbcbbf;
+    display: inline-block;
 }
 
 .Survey-header {

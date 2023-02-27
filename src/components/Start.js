@@ -20,6 +20,7 @@ const Start = () => {
     const [Email, setEmail] = useState("");
     const [Error, setError] = useState("");
     const [isChecked, setIsChecked] = useState(true)
+    const [isSended, setIsSended] = useState(false)
     const [isChecked2, setIsChecked2] = useState(true)
     const [isChecked3, setIsChecked3] = useState(true)
     const [isChecked4, setIsChecked4] = useState(true)
@@ -72,7 +73,7 @@ const Start = () => {
         
             const signuserRef = doc(db, "signin", Email);
             await updateDoc(signuserRef, {
-                read: true
+                isread: true
             });
             setIsLoading(false);
             navigate('/survey', {state: {confirmed:true ,email:Email, id:Index, QuestionIdx: usersDocId.data().QuestionIdx}});
@@ -112,6 +113,7 @@ const Start = () => {
     }
 
     async function PostTest() {
+        setIsLoading(true);
         try {
             const response = await fetch('https://yaryitroa7m77ur24vsegsb6ki0octnv.lambda-url.ap-northeast-1.on.aws/', {
                 method: 'POST',
@@ -129,6 +131,7 @@ const Start = () => {
                 console.error('esponse.status:', response.status);
                 console.error('esponse.statusText:', response.statusText);
                 setError("サーバーエラー");
+                
                 
             } else {
                 console.log("ここまでok2.5")
@@ -148,9 +151,12 @@ const Start = () => {
     async function sendMail() {
         const responseData = await PostTest();
         if (responseData) {
+            setIsLoading(false);
+            setIsSended(true);
             setresponsedText("メールを送信しました．")
             console.log(responseData);
         } else {
+            setIsLoading(false);
             setError("適切なデータがありません．\nメールアドレスが有効なものかお確かめください．");
         }
     }
@@ -163,14 +169,14 @@ const Start = () => {
                 <FormControlLabel control={<Checkbox />} label="研究に協力することを承諾します。" onChange={() => toggleCheckbox()}/>
                 <FormControlLabel control={<Checkbox />} label="このページをPCで、かつ全画面で表示しています。" onChange={() => toggleCheckbox2()}/>
             </FormGroup>
-            <FormLabel>メールアドレスを入力してください．<br/>パスワードが送られます</FormLabel>
+            <FormLabel>メールアドレスを入力してください．<br/>そして、送られるパスワードを入力してください。</FormLabel>
             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                 <EmailIcon  sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                 <TextField id="input-with-sx" label="メールアドレス" variant="standard" onBlur={handleBlur} type="email"
                     onChange={(e) => {
                         setEmail(e.target.value)
                     }} />
-                <Button variant="contained" onClick={sendMail} disabled = {isChecked || isChecked2 || isChecked3 }>メール送信 </Button>
+                <Button variant="contained" onClick={sendMail} disabled = {isChecked || isChecked2 || isChecked3 || isSended}>メール送信 </Button>
                 
             </Box>
             {mailError && <FormLabel>{mailError}</FormLabel>}

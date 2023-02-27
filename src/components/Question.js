@@ -13,10 +13,20 @@ const Question = (props) => {
 
     const [startTime, setstartTime] = useState();
     const seed = props.id
-    const idtest = String(props.q_id)
+    const ex_num_str = props.id
+    const ex_num = Number(ex_num_str)
+    const question_idx = String(props.q_id)
     //console.log(seed)
+    console.log('props.id', typeof props.id)
+    console.log('seed', typeof Number(seed))
     //console.log(idtest)
-    var url = urlJoin('https://raw.githubusercontent.com/Melonps/gen_sum_data/master/question_data', seed, idtest);
+    var url;
+    if ((ex_num % 2) === 1) {
+        url = urlJoin('https://raw.githubusercontent.com/Melonps/gen_sum_data1/master/question_data', ex_num_str, question_idx);
+    } else {
+        url = urlJoin('https://raw.githubusercontent.com/Melonps/gen_sum_data2/master/question_data', ex_num_str, question_idx);
+    }
+    
     var audio_path = url + '.mp3'
     var image_path = url + '.png'
     const audio = new Audio(audio_path);
