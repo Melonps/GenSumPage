@@ -93,9 +93,9 @@ const Start = () => {
         } else if (!pattern.test(mail)) {   
             setMailError('メールアドレスにマッチしていません')
             setIsChecked3(true)
-        } else {
+        } 
+        else {
             setMailError('')
-            setIsChecked3(false)
         }
     }
 
@@ -103,10 +103,10 @@ const Start = () => {
         const pass = e.target.value
         if (!pass) {
             setPassError('パスワードを入力してください')
-        } else if (pass === pass_pattern) {  
-            setPassError('')
-            setIsChecked4(false)
-        } else{
+        } else if (pass === pass_pattern) {
+            
+        }
+        else {
             setPassError('パスワードにマッチしていません')
             setIsChecked4(true)
         }
@@ -153,11 +153,11 @@ const Start = () => {
         if (responseData) {
             setIsLoading(false);
             setIsSended(true);
-            setresponsedText("メールを送信しました．")
+            setresponsedText("メールを送信しました。")
             console.log(responseData);
         } else {
             setIsLoading(false);
-            setError("適切なデータがありません．\nメールアドレスが有効なものかお確かめください．");
+            setError("メールを送信できませんでした。\n少し経ってからボタンを再度押してみてください。\nそれでも駄目なら、別のメールアドレスを使用するか、管理者に連絡してください。");
         }
     }
 
@@ -169,11 +169,15 @@ const Start = () => {
                 <FormControlLabel control={<Checkbox />} label="研究に協力することを承諾します。" onChange={() => toggleCheckbox()}/>
                 <FormControlLabel control={<Checkbox />} label="このページをPCで、かつ全画面で表示しています。" onChange={() => toggleCheckbox2()}/>
             </FormGroup>
-            <FormLabel>メールアドレスを入力してください．<br/>そして、送られるパスワードを入力してください。</FormLabel>
+            <FormLabel>メールアドレスを入力して、送信ボタンを押してください。<br/>そして送られたパスワードを入力してください。</FormLabel>
             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                 <EmailIcon  sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                 <TextField id="input-with-sx" label="メールアドレス" variant="standard" onBlur={handleBlur} type="email"
                     onChange={(e) => {
+                        const email = e.target.value
+                        if (pattern.test(email)) {
+                            setIsChecked3(false)
+                        }
                         setEmail(e.target.value)
                     }} />
                 <Button variant="contained" onClick={sendMail} disabled = {isChecked || isChecked2 || isChecked3 || isSended}>メール送信 </Button>
@@ -188,8 +192,14 @@ const Start = () => {
                 
                 <LockOpenIcon   sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                 <TextField id="input-with-sx" label="password" variant="standard" onBlur={handleBlur2} type="password"
+                    onChange={(e) => {
+                        const pass = e.target.value
+                        if (pass === pass_pattern) {
+                            setIsChecked4(false)
+                        }
+                    }} 
                     />
-                <Button variant="contained" width="full" onClick={judge} disabled = { isChecked || isChecked2 || isChecked3 || isChecked4 }>実験開始 </Button>
+                <Button variant="contained" width="full" onClick={judge} disabled = { isChecked || isChecked2 || isChecked3 || isChecked4 || !isSended}>実験開始 </Button>
             </Box>
             
             

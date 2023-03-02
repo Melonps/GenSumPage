@@ -15,6 +15,7 @@ import '../style/survey.css';
 import { Box, Stack, TextField, Button, Container } from '@mui/material'
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CallIcon from '@mui/icons-material/Call';
+import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
 
 import Carousel from 'react-bootstrap/Carousel';
 
@@ -95,6 +96,10 @@ const Survey = () => {
         updatetestListend(!testListend)
     };
 
+    function totop() {
+        window.scrollTo(0, 0)
+    }
+
     async function Surveystart() {
         if (Started && Ended)  {
             navigate('/thankyou');
@@ -129,10 +134,16 @@ const Survey = () => {
 
     return (
         <div>
+            <div className='fix'>
+                <Button variant="contained" endIcon={<VerticalAlignTopIcon />} sx={{ zIndex: 'tooltip' }} onClick={totop}>
+                Top
+                </Button>
+            </div>
+            
             <div className='Survey-header'>
                 <h1 >実験ページ</h1>
                 <div className='annotation'>
-                    <p>下の実験上の注意をお読みください<br/>実験開始ボタンから始めれます</p>
+                    <p>下の実験上の注意をお読みください。<br/>実験開始ボタンから始めれます。</p>
                 </div>
             </div>
             
@@ -148,7 +159,7 @@ const Survey = () => {
                         <Carousel.Item >
                             <img className='inCarousel' src={s1} alt="aaa" />
                             <Carousel.Caption>
-                            <h2 className="ex"><span>ブラウザバックやリロードをしないでください</span></h2>
+                            <h2 className="ex"><span>ブラウザバックやリロードを</span><span>しないでください</span></h2>
                             <p className="ex"><span>データの重複を防止するためです。<br />
                             報酬のための情報が届かなくなります。</span>
                             </p>
@@ -158,8 +169,8 @@ const Survey = () => {
                             <img className='inCarousel' src={s2} alt="aaa" />
 
                             <Carousel.Caption>
-                            <h2 className="ex"><span>音声は一度しか流れません。</span></h2>
-                            <p className="ex"><span>下のボタンで音声が流れるかのテストをしてから</span><span>開始してください</span></p>
+                            <h2 className="ex"><span>音声は一度しか流れません</span></h2>
+                            <p className="ex"><span>下のボタンで音声が流れるかのテストをしてから</span><span>開始してください。</span></p>
                             <Button variant="contained" onClick={testaudio} >音声テスト</Button>
                             <audio id="test_audio">
                                 <source src={test} type="audio/mp3"/>
@@ -171,7 +182,7 @@ const Survey = () => {
                             <Carousel.Caption>
                             <h2 className="ex"><span>報酬について</span></h2>
                             <p className="ex"><span>全ての問題に回答して頂いた後、</span><span>謝金のお支払いのための情報を入力して頂きます。<br/></span>
-                                <span>回答が足りてないと</span><span>報酬のお支払いができないのでご注意ください</span>
+                                <span>回答が足りてないと</span><span>報酬のお支払いができないのでご注意ください。</span>
                             </p>
                             </Carousel.Caption>
                         </Carousel.Item>
@@ -198,7 +209,7 @@ const Survey = () => {
                 </div>
                 
                 <div style={{ visibility: showidx[1] ? "visible" : "hidden" }}>
-                    <Question addnext={ addnext } addans={addans} addreason={ addreason } addtime={ addtime } q_id={Questionarray[1]} idx={ 1 } id={ Id } />
+                    <Question addnext={addnext} addans={addans} addreason={addreason} addtime={addtime} q_id={Questionarray[1]} idx={1} id={Id} />
                 </div>
                 <div style={{ visibility: showidx[2] ? "visible" : "hidden" }}>
                     <Question addnext={ addnext } addans={addans} addreason={ addreason } addtime={ addtime } q_id={Questionarray[2]} idx={ 2 } id={ Id } />
@@ -259,7 +270,7 @@ const Survey = () => {
                     <div className='next'>
                         <Container maxWidth="md" sx={{ pt: 5 }}>
                             <h3>謝金の支払いに必要な個人情報の入力</h3>
-                            <p>ここで入力していただく情報は謝金のお支払いのために用い、実験には使用しません。
+                            <p className='cap'>ここで入力していただく情報は謝金のお支払いのために用い、実験には使用しません。<br/>
                                 氏名、住所、電話番号を正しく記載していただけない場合は、謝金のお支払いができませんので、ご注意ください。</p>
                             <Stack spacing={3}>
                                 <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>

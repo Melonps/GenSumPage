@@ -22,9 +22,9 @@ const Question = (props) => {
     //console.log(idtest)
     var url;
     if ((ex_num % 2) === 1) {
-        url = urlJoin('https://raw.githubusercontent.com/Melonps/gen_sum_data1/master/question_data', ex_num_str, question_idx);
+        url = urlJoin('https://raw.githubusercontent.com/Melonps/gen_sum_data1/prod/question_data', ex_num_str, question_idx);
     } else {
-        url = urlJoin('https://raw.githubusercontent.com/Melonps/gen_sum_data2/master/question_data', ex_num_str, question_idx);
+        url = urlJoin('https://raw.githubusercontent.com/Melonps/gen_sum_data2/prod/question_data', ex_num_str, question_idx);
     }
     
     var audio_path = url + '.mp3'
@@ -96,29 +96,32 @@ const Question = (props) => {
                         value={value}
                         defaultValue="5"
                         onChange={handleChange}
+                        
                     >
-                            <FormControlLabel value="1" name="radiobox" control={<Radio />} label="1" />
-                            <FormControlLabel value="2" name="radiobox" control={<Radio />} label="2" />
-                            <FormControlLabel value="3" name="radiobox" control={<Radio />} label="3" />
-                            <FormControlLabel value="4" name="radiobox" control={<Radio />} label="4" />
-                            <FormControlLabel value="5" name="radiobox" control={<Radio />} label="分からない" />
+                            <FormControlLabel value="1" name="radiobox" control={<Radio />} disabled={Finished} label="1" />
+                            <FormControlLabel value="2" name="radiobox" control={<Radio />} disabled={Finished} label="2" />
+                            <FormControlLabel value="3" name="radiobox" control={<Radio />} disabled={Finished} label="3" />
+                            <FormControlLabel value="4" name="radiobox" control={<Radio />} disabled={Finished} label="4" />
+                            <FormControlLabel value="5" name="radiobox" control={<Radio />} disabled={Finished} label="分からない" />
                             
                         <Button variant="contained" onClick={submit} disabled={Finished}> 回答 </Button>
                     </RadioGroup>
                     <FormLabel>{helperText}</FormLabel>
                 </FormControl>
                 <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">理由を選択してください</InputLabel>
+                <InputLabel id="demo-simple-select-label"><span>"分からない"の場合は</span>理由を選択してください</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={reason}
                         label="Age"
                         onChange={handleChange2}
+                        disabled={Finished}
                     >
-                        <MenuItem value={1}>音声が聞き取れなかった．</MenuItem>
-                        <MenuItem value={2}>グループの分け方が分からなかった．</MenuItem>
-                        <MenuItem value={3}>理解が出来なかった．</MenuItem>
+                        <MenuItem disabled={Finished} value={1}>音声が聞き取れなかった</MenuItem>
+                        <MenuItem disabled={Finished} value={2}>説明内容が複雑で理解出来なかった</MenuItem>
+                        <MenuItem disabled={Finished} value={3}>読み上げ音声が速過ぎて理解出来なかった</MenuItem>
+                        <MenuItem disabled={Finished} alue={4}><span>それらしい選択肢が複数あるので、</span>どれか分からなかった</MenuItem>
                     </Select>
                 </FormControl>
                 </div>
