@@ -70,10 +70,10 @@ const Example = () => {
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                     >
-                        <MenuItem disabled={Finished} value={1}>音声が聞き取れなかった</MenuItem>
-                        <MenuItem disabled={Finished} value={2}>説明内容が複雑で理解出来なかった</MenuItem>
-                        <MenuItem disabled={Finished} value={3}>読み上げ音声が速過ぎて理解出来なかった</MenuItem>
-                        <MenuItem disabled={Finished} value={4}><span>それらしい選択肢が複数あるので、</span>どれか分からなかった</MenuItem>
+                        <MenuItem disabled = { Finished } value={1}>音声が聞き取れなかった</MenuItem>
+                        <MenuItem disabled = { Finished } value={2}>説明内容が複雑で理解出来なかった</MenuItem>
+                        <MenuItem disabled = { Finished } value={3}>読み上げ音声が速過ぎて理解出来なかった</MenuItem>
+                        <MenuItem disabled = { Finished } value={4}><span>それらしい選択肢が複数あるので、</span>どれか分からなかった</MenuItem>
                     </Select>
                 </FormControl>
             </div>
