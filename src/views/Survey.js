@@ -117,7 +117,7 @@ const Survey = () => {
     };
 
     async function Surveyend() {
-        const signuserRef = doc(db, "signin", Email);
+        const signuserRef = doc(db, "signin", Id);
         await updateDoc(signuserRef, {
             id: Id,
             answer: ans,
