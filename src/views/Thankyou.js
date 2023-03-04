@@ -7,7 +7,7 @@ const Thankyou = () => {
         <div className='App-header'>
             <BlockBrowserBack></BlockBrowserBack>
             <div class="contents">
-                    <h1 class="title">実験へのご協力<br/>ありがとうございました。</h1>
+                    <h1 class="title">実験へのご協力<br/><span>ありがとうございました。</span></h1>
                 </div>
         </div>
     );

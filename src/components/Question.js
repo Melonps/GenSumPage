@@ -82,7 +82,7 @@ const Question = (props) => {
         <div class="outline">
             <h1>質問{String(props.idx+1)}</h1>
             <button className="btn btn-outline-primary" onClick={audio2} disabled={Listend}>クリックすると音声が流れます。</button>
-
+            <FormLabel>音声を必ず聞いて下さい</FormLabel>
             <div class="box_image">
                 <img src={ image_path } alt="question" class="imageQuestion"/>
             </div>
@@ -99,7 +99,7 @@ const Question = (props) => {
                         
                     >
                             <FormControlLabel value="1" name="radiobox" control={<Radio />} disabled={Finished} label="1" />
-                            <FormControlLabel value="2" name="radiobox" control={<Radio />} disabled={Finished} label="2" />
+                            <FormControlLabel value="2" name="radiobox" control={<Radio />} disabled={Finished}label="2" />
                             <FormControlLabel value="3" name="radiobox" control={<Radio />} disabled={Finished} label="3" />
                             <FormControlLabel value="4" name="radiobox" control={<Radio />} disabled={Finished} label="4" />
                             <FormControlLabel value="5" name="radiobox" control={<Radio />} disabled={Finished} label="分からない" />
@@ -118,10 +118,10 @@ const Question = (props) => {
                         onChange={handleChange2}
                         disabled={Finished}
                     >
-                        <MenuItem disabled={Finished} value={1}>音声が聞き取れなかった</MenuItem>
+                        <MenuItem disabled={Finished}value={1}>音声が聞き取れなかった</MenuItem>
                         <MenuItem disabled={Finished} value={2}>説明内容が複雑で理解出来なかった</MenuItem>
                         <MenuItem disabled={Finished} value={3}>読み上げ音声が速過ぎて理解出来なかった</MenuItem>
-                        <MenuItem disabled={Finished} alue={4}><span>それらしい選択肢が複数あるので、</span>どれか分からなかった</MenuItem>
+                        <MenuItem disabled={Finished}value={4}><span>それらしい選択肢が複数あるので、</span>どれか分からなかった</MenuItem>
                     </Select>
                 </FormControl>
                 </div>

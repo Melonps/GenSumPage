@@ -11,6 +11,7 @@ import '../style/example.css';
 
 const Example = () => {
     const [Finished, updateFinished] = useState(false); //送信したら無効
+    const [Listend, updateListend] = useState(false); //送信したら無効
     const [value, setValue] = useState("");
 
     const [play, {stop}] = useSound(example_audio);
@@ -29,8 +30,9 @@ const Example = () => {
 
 
     function audio2() {   
-        stop();
         play(); //クリックしたら音を再生
+        updateListend(true);
+        
         
     }
 
@@ -40,7 +42,7 @@ const Example = () => {
     return (
         <div class="outline">
             <h1>例題</h1>
-            <button className="btn btn-outline-primary" onClick={audio2}>クリックすると音声が流れます。</button>
+            <button className="btn btn-outline-primary" onClick={audio2} disabled={Listend}>クリックすると音声が流れます。</button>
             <div class="box_image">
                 <img src={ example_image } alt="question" class="imageQuestion"/>
             </div>
@@ -54,12 +56,13 @@ const Example = () => {
                         value={value}
                         defaultValue="5"
                         onChange={handleChange}
+                        disabled={Finished}
                     >
-                        <FormControlLabel value="1" name="radiobox" disabled = { Finished } control={<Radio />} label="1" />
-                        <FormControlLabel value="2" name="radiobox" disabled = { Finished } control={<Radio />} label="2" />
-                        <FormControlLabel value="3" name="radiobox" disabled = { Finished } control={<Radio />} label="3" />
-                        <FormControlLabel value="4" name="radiobox" disabled = { Finished } control={<Radio />} label="4" />
-                        <FormControlLabel value="5" name="radiobox" disabled = { Finished } control={<Radio />} label="分からない" />
+                            <FormControlLabel value="1" name="radiobox" control={<Radio />} disabled={Finished} label="1" />
+                            <FormControlLabel value="2" name="radiobox" control={<Radio />} disabled={Finished} label="2" />
+                            <FormControlLabel value="3" name="radiobox" control={<Radio />} disabled={Finished} label="3" />
+                            <FormControlLabel value="4" name="radiobox" control={<Radio />} disabled={Finished} label="4" />
+                            <FormControlLabel value="5" name="radiobox" control={<Radio />} disabled={Finished} label="分からない" />
                             
                         <Button variant="contained" onClick={submit} disabled={Finished}> 回答 </Button>
                     </RadioGroup>
@@ -70,10 +73,10 @@ const Example = () => {
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                     >
-                        <MenuItem disabled = { Finished } value={1}>音声が聞き取れなかった</MenuItem>
-                        <MenuItem disabled = { Finished } value={2}>説明内容が複雑で理解出来なかった</MenuItem>
-                        <MenuItem disabled = { Finished } value={3}>読み上げ音声が速過ぎて理解出来なかった</MenuItem>
-                        <MenuItem disabled = { Finished } value={4}><span>それらしい選択肢が複数あるので、</span>どれか分からなかった</MenuItem>
+                        <MenuItem disabled={Finished} value={1}>音声が聞き取れなかった</MenuItem>
+                        <MenuItem disabled={Finished} value={2}>説明内容が複雑で理解出来なかった</MenuItem>
+                        <MenuItem disabled={Finished} value={3}>読み上げ音声が速過ぎて理解出来なかった</MenuItem>
+                        <MenuItem disabled={Finished} value={4}><span>それらしい選択肢が複数あるので、</span>どれか分からなかった</MenuItem>
                     </Select>
                 </FormControl>
             </div>
@@ -93,7 +96,7 @@ const Example = () => {
                 <p>グループ分け</p>
                 <FormLabel>
                     今回聞いて頂くグラフの説明には、グループ分けという言葉が出てきます。<br />
-                    グループ分けでは近いデータをひとまとめにして、それぞれについて説明します。<br />
+                    グループ分けでは値が近いデータをひとまとめにして、それぞれについて説明します。<br />
                     この場合では、1～4位、5位、6～7位の三つに分割して説明しました。<br/>
                     <span class="explain">以降では、回答と説明が表示されません</span>
                 </FormLabel>

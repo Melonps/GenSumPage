@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "GenSum",
+  "name": "大阪公立大学・情報学研究科・オンラインサーベイ",
   "icons": [
     {
       "src": "favicon.ico",

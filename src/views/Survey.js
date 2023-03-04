@@ -15,6 +15,7 @@ import '../style/survey.css';
 import { Box, Stack, TextField, Button, Container } from '@mui/material'
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CallIcon from '@mui/icons-material/Call';
+import ApprovalIcon from '@mui/icons-material/Approval';
 import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
 
 import Carousel from 'react-bootstrap/Carousel';
@@ -49,6 +50,7 @@ const Survey = () => {
     const [name, setname] = useState("");
     const [address, setaddress] = useState("")
     const [phonenumber, setphonenumber] = useState();
+    const [postcode, setpostcode] = useState();
 
 
     useEffect(() => {
@@ -124,7 +126,8 @@ const Survey = () => {
             address: address,
             reason: reason,
             time: time,
-            phonenumber: phonenumber
+            phonenumber: phonenumber,
+            postcode: postcode,
         });
         setEnded(true)
         navigate('/thankyou')
@@ -279,7 +282,12 @@ const Survey = () => {
                                         setname(e.target.value)
                                     }}/>
                                 </Box>
-                                
+                                <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                                    <ApprovalIcon  sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                    <TextField required label="郵便番号" variant="standard" onChange={(e) => {
+                                        setpostcode(e.target.value)
+                                    }}/>
+                                </Box>
                                 <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                     <LocationOnIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                                     <TextField required label="住所" variant="standard" onChange={(e) => {
