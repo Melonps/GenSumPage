@@ -52,6 +52,7 @@ const Survey = () => {
     const [phonenumber, setphonenumber] = useState();
     const [postcode, setpostcode] = useState();
 
+    const [errormessage, seterrormessage] = useState()
 
     useEffect(() => {
         // useEffect自体ではasyncの関数を受け取れないので内部で関数を定義して呼び出す。
@@ -118,19 +119,25 @@ const Survey = () => {
 
     async function Surveyend() {
         const signuserRef = doc(db, "signin", Email);
-        await updateDoc(signuserRef, {
-            id: Id,
-            answer: ans,
-            isend: true,
-            name: name,
-            address: address,
-            reason: reason,
-            time: time,
-            phonenumber: phonenumber,
-            postcode: postcode,
-        });
-        setEnded(true)
-        navigate('/thankyou')
+        try {
+            await updateDoc(signuserRef, {
+                id: Id,
+                answer: ans,
+                isend: true,
+                name: name,
+                address: address,
+                reason: reason,
+                time: time,
+                phonenumber: phonenumber,
+                postcode: postcode
+            })
+            setEnded(true)
+            navigate('/thankyou')
+        }catch(e){
+            seterrormessage("データの送信に失敗しました．再送信してください")
+            console.error(e);
+        }
+        
     };
 
 
@@ -302,6 +309,7 @@ const Survey = () => {
                                 </Box> 
                                 <Button variant="contained" onClick={Surveyend}>回答を送信する</Button>
                             </Stack>
+                            {errormessage && <p>{errormessage}</p>}
                         </Container>
                     </div>
                     <div className="d-grid gap-2">
