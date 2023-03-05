@@ -44,7 +44,8 @@ const Signin = () => {
             <h1>ログイン</h1>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <FormGroup>
-                <FormControlLabel control={<Checkbox /> } onBlur={handleBlur} label="同意します。" onChange={() => toggleCheckbox() ,(e) => {
+                <FormControlLabel control={<Checkbox />} onBlur={handleBlur} label="同意します。"
+                    onChange={() => toggleCheckbox(), (e) => {
             setPass(e.target.value)
          }/>
             </FormGroup>
