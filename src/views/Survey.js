@@ -21,12 +21,12 @@ import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
 import Carousel from 'react-bootstrap/Carousel';
 
 
-import s0 from '../images/c.PNG'
-import s1 from '../images/c1.PNG'
-import s2 from '../images/c2.PNG'
-import s4 from '../images/c4.PNG'
-import s5 from '../images/c5.PNG'
-import test from '../images/test.mp3'
+import s0 from '../assets/c.PNG'
+import s1 from '../assets/c1.PNG'
+import s2 from '../assets/c2.PNG'
+import s4 from '../assets/c4.PNG'
+import s5 from '../assets/c5.PNG'
+import test from '../assets/test.mp3'
 
 const Survey = () => {
     const location = useLocation();
@@ -52,6 +52,7 @@ const Survey = () => {
     const [phonenumber, setphonenumber] = useState();
     const [postcode, setpostcode] = useState();
 
+    const [errormessage, seterrormessage] = useState()
 
     useEffect(() => {
         // useEffect自体ではasyncの関数を受け取れないので内部で関数を定義して呼び出す。
@@ -118,19 +119,25 @@ const Survey = () => {
 
     async function Surveyend() {
         const signuserRef = doc(db, "signin", Email);
-        await updateDoc(signuserRef, {
-            id: Id,
-            answer: ans,
-            isend: true,
-            name: name,
-            address: address,
-            reason: reason,
-            time: time,
-            phonenumber: phonenumber,
-            postcode: postcode,
-        });
-        setEnded(true)
-        navigate('/thankyou')
+        try {
+            await updateDoc(signuserRef, {
+                id: Id,
+                answer: ans,
+                isend: true,
+                name: name,
+                address: address,
+                reason: reason,
+                time: time,
+                phonenumber: phonenumber,
+                postcode: postcode
+            })
+            setEnded(true)
+            navigate('/thankyou')
+        }catch(e){
+            seterrormessage("データの送信に失敗しました．再送信してください")
+            console.error(e);
+        }
+        
     };
 
 
@@ -302,6 +309,7 @@ const Survey = () => {
                                 </Box> 
                                 <Button variant="contained" onClick={Surveyend}>回答を送信する</Button>
                             </Stack>
+                            {errormessage && <p>{errormessage}</p>}
                         </Container>
                     </div>
                     <div className="d-grid gap-2">

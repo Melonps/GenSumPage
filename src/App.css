@@ -23,7 +23,7 @@
 }
 
 .App-header {
-  background:url("./images/barchart.jpg") no-repeat center center ;
+  background:url("./assets/barchart.jpg") no-repeat center center ;
   background-size: cover;
   min-height: 100vh;
   flex-direction: column;
