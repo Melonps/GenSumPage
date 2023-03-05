@@ -21,12 +21,12 @@ import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
 import Carousel from 'react-bootstrap/Carousel';
 
 
-import s0 from '../../public/images/c.PNG'
-import s1 from '../../public/images/c1.PNG'
-import s2 from '../../public/images/c2.PNG'
-import s4 from '../../public/images/c4.PNG'
-import s5 from '../../public/images/c5.PNG'
-import test from '../../public/images/test.mp3'
+import s0 from '../assets/c.PNG'
+import s1 from '../assets/c1.PNG'
+import s2 from '../assets/c2.PNG'
+import s4 from '../assets/c4.PNG'
+import s5 from '../assets/c5.PNG'
+import test from '../assets/test.mp3'
 
 const Survey = () => {
     const location = useLocation();

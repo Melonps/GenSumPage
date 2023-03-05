@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 import Carousel from 'react-bootstrap/Carousel';
 
-import t1 from '../../public/images/content1.PNG'
-import t2 from '../../public/images/content2.PNG'
-import t3 from '../../public/images/content3.PNG'
+import t1 from '../assets/content1.PNG'
+import t2 from '../assets/content2.PNG'
+import t3 from '../assets/content3.PNG'
 
 const About = () => {
     const [index, setIndex] = useState();

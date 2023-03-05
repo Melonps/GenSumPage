@@ -3,9 +3,9 @@ import {InputLabel,Select,MenuItem, Button,  FormControl, RadioGroup,Radio,FormL
 
 import useSound from 'use-sound';
 
-import example_image from '../../public/images/example_image.png'
-import example_audio from '../../public/images/example_audio.mp3'
-import group_image from '../../public/images/group.png'
+import example_image from '../assets/example_image.png'
+import example_audio from '../assets/example_audio.mp3'
+import group_image from '../assets/group.png'
 
 import '../style/example.css';
 
