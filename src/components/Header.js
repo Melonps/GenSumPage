@@ -1,5 +1,5 @@
 import React from 'react';
-import headerimg from '../images/barchart.jpg';
+import headerimg from '../assets/barchart.jpg';
 
 class Header extends React.Component {
     render() {
