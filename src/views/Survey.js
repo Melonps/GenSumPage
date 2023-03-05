@@ -137,7 +137,7 @@ const Survey = () => {
             seterrormessage("データの送信に失敗しました．再送信してください")
             console.error(e);
         }
-        
+
     };
 
 

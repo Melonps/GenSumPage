@@ -25,12 +25,12 @@ const Start = () => {
     const [isChecked3, setIsChecked3] = useState(true)
     const [isChecked4, setIsChecked4] = useState(true)
     const [responsedText, setresponsedText] = useState("")
+    const [password, setPassword] = useState("")
     const [passError, setPassError] = useState(true)
     const [mailError, setMailError] = useState(true)
     const [isLoading, setIsLoading] = useState(false);
     
     var pattern = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+.[A-Za-z0-9]+$/;
-    const pass_pattern = process.env.REACT_APP_PASSWORD;
 
     const navigate = useNavigate();
 
@@ -40,25 +40,20 @@ const Start = () => {
         const signindata = collection(db, "signin"); 
         const snapshot = await getCountFromServer(signindata);
         console.log(snapshot.data().count + 1);
+        
         const Index = snapshot.data().count + 1;
-        const signuserRef = doc(db, "signin", Email);
-        await getDoc(signuserRef).then((documentSnapshot) => {
-            if (documentSnapshot.exists()) {
-                setIsLoading(false);
-                console.log('Document data:', documentSnapshot.data());
-                const text = "メールアドレス" + documentSnapshot.data().email + "は既に登録されているようです";
-                setError(text)
-            } else {
-                
-                console.log('No such document!');
-                setDoc(signuserRef, {
-                    email: Email,
-                    timestamp: serverTimestamp()
-                });
-                
-                sendData(Index, Email);
+        const signuserRef = doc(db, "signin", String(Index));
+        await getDoc(signuserRef).then(() => {
 
-            }
+            console.log('No such document!');
+            setDoc(signuserRef, {
+                email: Email,
+                timestamp: serverTimestamp()
+            });
+            
+            sendData(Index, Email);
+
+            
         });
     };
 
@@ -103,7 +98,7 @@ const Start = () => {
         const pass = e.target.value
         if (!pass) {
             setPassError('パスワードを入力してください')
-        } else if (pass === pass_pattern) {
+        } else if (pass === password) {
             
         }
         else {
@@ -115,7 +110,7 @@ const Start = () => {
     async function PostTest() {
         setIsLoading(true);
         try {
-            const response = await fetch('https://yaryitroa7m77ur24vsegsb6ki0octnv.lambda-url.ap-northeast-1.on.aws/', {
+            const response = await fetch('https://rivi4rocet2uj7sfn4o645vzuy0snggr.lambda-url.ap-northeast-1.on.aws/', {
                 method: 'POST',
                 mode: "cors",
                 headers: {
@@ -138,6 +133,7 @@ const Start = () => {
                 const json_data = await response.text();
                 console.log(json_data);
                 console.log("ここまでok3")
+                setPassword(json_data)
                 return json_data;
             }
             
@@ -194,7 +190,7 @@ const Start = () => {
                 <TextField id="input-with-sx" label="password" variant="standard" onBlur={handleBlur2} type="password"
                     onChange={(e) => {
                         const pass = e.target.value
-                        if (pass === pass_pattern) {
+                        if (pass === password) {
                             setIsChecked4(false)
                         }
                     }} 
