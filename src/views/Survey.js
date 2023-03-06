@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 
 import '../style/survey.css';
-import { Box, Stack, TextField, Button, Container } from '@mui/material'
+import { Box, Stack, TextField, Button, Container ,FormLabel} from '@mui/material'
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CallIcon from '@mui/icons-material/Call';
 import ApprovalIcon from '@mui/icons-material/Approval';
@@ -53,6 +53,7 @@ const Survey = () => {
     const [postcode, setpostcode] = useState();
 
     const [errormessage, seterrormessage] = useState()
+    const [startTime, setstartTime] = useState();
 
     useEffect(() => {
         // useEffect自体ではasyncの関数を受け取れないので内部で関数を定義して呼び出す。
@@ -112,6 +113,7 @@ const Survey = () => {
                 top: 1200, behavior: 'smooth'
             })
             setStarted(true)
+            setstartTime(performance.now());
         }
         
         
@@ -119,6 +121,8 @@ const Survey = () => {
 
     async function Surveyend() {
         const signuserRef = doc(db, "signin", Id);
+        const endTime = performance.now();
+        const wholetime = endTime - startTime
         try {
             await updateDoc(signuserRef, {
                 id: Id,
@@ -129,7 +133,8 @@ const Survey = () => {
                 reason: reason,
                 time: time,
                 phonenumber: phonenumber,
-                postcode: postcode
+                postcode: postcode,
+                wholetime: wholetime,
             })
             setEnded(true)
             navigate('/thankyou')
@@ -281,7 +286,7 @@ const Survey = () => {
                         <Container maxWidth="md" sx={{ pt: 5 }}>
                             <h3>謝金の支払いに必要な個人情報の入力</h3>
                             <p className='cap'>ここで入力していただく情報は謝金のお支払いのために用い、実験には使用しません。<br/>
-                                氏名、住所、電話番号を正しく記載していただけない場合は、謝金のお支払いができませんので、ご注意ください。</p>
+                                氏名、住所、電話番号を適切に記載していない方には謝金のお支払いができませんので、ご注意ください。</p>
                             <Stack spacing={3}>
                                 <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                     <DriveFileRenameOutlineIcon  sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
@@ -307,6 +312,7 @@ const Survey = () => {
                                         setphonenumber(e.target.value)
                                     }}/>
                                 </Box> 
+                                <FormLabel>ご協力ありがとうございました。本実験は一人で複数回回答してもらうこともできます。</FormLabel>
                                 <Button variant="contained" onClick={Surveyend}>回答を送信する</Button>
                             </Stack>
                             {errormessage && <p>{errormessage}</p>}
