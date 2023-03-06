@@ -163,7 +163,6 @@ const Start = () => {
         <>
             <FormGroup>
                 <FormControlLabel control={<Checkbox />} label="研究に協力することを承諾します。" onChange={() => toggleCheckbox()}/>
-                <FormControlLabel control={<Checkbox />} label="このページをPCで、かつ全画面で表示しています。" onChange={() => toggleCheckbox2()}/>
             </FormGroup>
             <FormLabel>メールアドレスを入力して、送信ボタンを押してください。<br/>そして送られたパスワードを入力してください。</FormLabel>
             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -176,7 +175,7 @@ const Start = () => {
                         }
                         setEmail(e.target.value)
                     }} />
-                <Button variant="contained" onClick={sendMail} disabled = {isChecked || isChecked2 || isChecked3 || isSended}>メール送信 </Button>
+                <Button variant="contained" onClick={sendMail} disabled = {isChecked || isChecked3 || isSended}>メール送信 </Button>
                 
             </Box>
             {mailError && <FormLabel>{mailError}</FormLabel>}
@@ -195,7 +194,7 @@ const Start = () => {
                         }
                     }} 
                     />
-                <Button variant="contained" width="full" onClick={judge} disabled = { isChecked || isChecked2 || isChecked3 || isChecked4 || !isSended}>実験開始 </Button>
+                <Button variant="contained" width="full" onClick={judge} disabled = { isChecked  || isChecked3 || isChecked4 || !isSended}>実験開始 </Button>
             </Box>
             
             
