@@ -66,7 +66,7 @@ const Start = () => {
             console.log(usersDocId.data().QuestionIdx)
 
         
-            const signuserRef = doc(db, "signin", Email);
+            const signuserRef = doc(db, "signin", String(Index));
             await updateDoc(signuserRef, {
                 isread: true
             });
