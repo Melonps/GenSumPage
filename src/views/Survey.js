@@ -32,6 +32,7 @@ const Survey = () => {
     const location = useLocation();
     const Id = String(location.state['id']);
     const Questionarray = location.state['QuestionIdx']
+    const newdocid = location.state['Docid']
     const Email = location.state['email']
     //console.log(Questionarray)
 
@@ -120,7 +121,7 @@ const Survey = () => {
     };
 
     async function Surveyend() {
-        const signuserRef = doc(db, "signin", Id);
+        const signuserRef = doc(db, "signin", newdocid);
         const endTime = performance.now();
         const wholetime = endTime - startTime
         try {
@@ -135,6 +136,7 @@ const Survey = () => {
                 phonenumber: phonenumber,
                 postcode: postcode,
                 wholetime: wholetime,
+                newdocid: newdocid,
             })
             setEnded(true)
             navigate('/thankyou')
