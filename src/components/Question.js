@@ -17,8 +17,8 @@ const Question = (props) => {
     const ex_num = Number(ex_num_str)
     const question_idx = String(props.q_id)
     //console.log(seed)
-    console.log('props.id', typeof props.id)
-    console.log('seed', typeof Number(seed))
+    //console.log('props.id', typeof props.id)
+    //console.log('seed', typeof Number(seed))
     //console.log(idtest)
     var url;
     if ((ex_num % 2) === 1) {

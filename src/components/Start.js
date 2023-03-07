@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { db } from "../firebase/firebase";
 import {
-    setDoc,
     collection,
     doc,
     serverTimestamp,
     getCountFromServer,
     updateDoc,
-    getDoc
+    getDoc,
+    addDoc
 } from "firebase/firestore";
 import { Box,  TextField, Button, FormControlLabel, FormGroup, Checkbox, FormLabel } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
@@ -37,41 +37,38 @@ const Start = () => {
     async function judge() {
         setIsLoading(true);
         
-        const signindata = collection(db, "signin"); 
+        const signindata = collection(db, "signin");
         const snapshot = await getCountFromServer(signindata);
         console.log(snapshot.data().count + 1);
         
         const Index = snapshot.data().count + 1;
-        const signuserRef = doc(db, "signin", String(Index));
-        await getDoc(signuserRef).then(() => {
-
-            console.log('No such document!');
-            setDoc(signuserRef, {
-                email: Email,
-                timestamp: serverTimestamp()
-            });
-            
-            sendData(Index, Email);
-
-            
-        });
-    };
-
-    async function sendData(Index, Email) {
-            const userdata = (collection(db, "users"));
-            const usersDocRefId = doc(userdata, String(Index));
-            const usersDocId = await getDoc(usersDocRefId);
-            //const usersDataId = usersDocId.data();
-
-            console.log(usersDocId.data().QuestionIdx)
-
         
-            const signuserRef = doc(db, "signin", String(Index));
-            await updateDoc(signuserRef, {
-                isread: true
-            });
-            setIsLoading(false);
-            navigate('/survey', {state: {confirmed:true ,email:Email, id:Index, QuestionIdx: usersDocId.data().QuestionIdx}});
+
+        const signuserRef = await addDoc(signindata, {
+            id: String(Index),
+            email: Email,
+            timestamp: serverTimestamp()
+        });
+
+        const newDocid = signuserRef.id
+        console.log('No such document!');
+        console.log(newDocid)
+        
+        sendData(Index, Email,newDocid);
+            
+    }
+    
+
+    async function sendData(Index, Email, newDocid) {  
+        const userdata = (collection(db, "users"));
+        const usersDocRefId = doc(userdata, String(Index));
+        const usersDocId = await getDoc(usersDocRefId);
+        const signuserRef = doc(db, "signin", newDocid);
+        await updateDoc(signuserRef, {
+            isread: true
+        });
+        setIsLoading(false);
+        navigate('/survey', {state: {confirmed:true ,email:Email, id:Index, Docid:newDocid, QuestionIdx: usersDocId.data().QuestionIdx}});
     }
 
     const toggleCheckbox = () => {
