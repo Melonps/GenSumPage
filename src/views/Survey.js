@@ -121,21 +121,25 @@ const Survey = () => {
     };
 
     async function Surveyend() {
-        const signuserRef = doc(db, "signin", newdocid);
+        const answerRef = doc(db, "answer_data", newdocid);
+        const signuserRef = doc(db, "meta_data", newdocid);
         const endTime = performance.now();
         const wholetime = endTime - startTime
         try {
-            await updateDoc(signuserRef, {
+            await updateDoc(answerRef , {
                 id: Id,
                 answer: ans,
-                isend: true,
-                name: name,
-                address: address,
                 reason: reason,
                 time: time,
+                wholetime: wholetime,
+                newdocid: newdocid,
+            })
+            await updateDoc(signuserRef, {
+                id: Id,
+                name: name,
+                address: address,
                 phonenumber: phonenumber,
                 postcode: postcode,
-                wholetime: wholetime,
                 newdocid: newdocid,
             })
             setEnded(true)

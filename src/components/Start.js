@@ -7,7 +7,8 @@ import {
     getCountFromServer,
     updateDoc,
     getDoc,
-    addDoc
+    addDoc,
+    setDoc
 } from "firebase/firestore";
 import { Box,  TextField, Button, FormControlLabel, FormGroup, Checkbox, FormLabel } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
@@ -29,6 +30,7 @@ const Start = () => {
     const [passError, setPassError] = useState(true)
     const [mailError, setMailError] = useState(true)
     const [isLoading, setIsLoading] = useState(false);
+    const [errormessage, seterrormessage] = useState();
     
     var pattern = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+.[A-Za-z0-9]+$/;
 
@@ -37,24 +39,34 @@ const Start = () => {
     async function judge() {
         setIsLoading(true);
         
-        const signindata = collection(db, "signin");
-        const snapshot = await getCountFromServer(signindata);
+        const answerdata = collection(db, "answer_data");
+        const snapshot = await getCountFromServer(answerdata);
         console.log(snapshot.data().count + 1);
         
         const Index = snapshot.data().count + 1;
-        
+        try {
+            const answerRef = await addDoc(answerdata, {
+                id: String(Index),
+                timestamp: serverTimestamp()
+            })
+            const newDocid = answerRef.id
+            console.log(newDocid)
+            await setDoc(doc(db, "meta_data", newDocid), {
+                    id: String(Index),
+                    email: Email,
+                    timestamp: serverTimestamp()
+            });
+            const userdata = (collection(db, "users"));
+            const usersDocRefId = doc(userdata, String(Index));
+            const usersDocId = await getDoc(usersDocRefId);
+            
+            setIsLoading(false);
+            navigate('/survey', {state: {confirmed:true ,email:Email, id:Index, Docid:newDocid, QuestionIdx: usersDocId.data().QuestionIdx}});
+        } catch (e) {
+            seterrormessage("データの送信に失敗しました．再送信してください")
+            console.error(e);
+        }
 
-        const signuserRef = await addDoc(signindata, {
-            id: String(Index),
-            email: Email,
-            timestamp: serverTimestamp()
-        });
-
-        const newDocid = signuserRef.id
-        console.log('No such document!');
-        console.log(newDocid)
-        
-        sendData(Index, Email,newDocid);
             
     }
     
@@ -195,7 +207,7 @@ const Start = () => {
             </Box>
             
             
-            
+            {errormessage && <p>{errormessage}</p>}
             {passError && <FormLabel>{passError}</FormLabel>}
             { isLoading ? <Loading /> : <br/> }
         </>
