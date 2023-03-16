@@ -39,39 +39,31 @@ const Start = () => {
     async function judge() {
         setIsLoading(true);
         
-        const answerdata = collection(db, "answer_data");
-        const snapshot = await getCountFromServer(answerdata);
+        const signindata = collection(db, "signin");
+        const snapshot = await getCountFromServer(signindata);
         console.log(snapshot.data().count + 1);
         
         const Index = snapshot.data().count + 1;
+        
         try {
-            const answerRef = await addDoc(answerdata, {
+            const signuserRef = await addDoc(signindata, {
                 id: String(Index),
                 email: Email,
-                timestamp: serverTimestamp(),
-                iread: true
-            })
-            const newDocid = answerRef.id
-            console.log(newDocid)
-            await setDoc(doc(db, "meta_data", newDocid), {
-                id: String(Index),
-                email: Email,
-                timestamp: serverTimestamp(),
-                iread: true
+                timestamp: serverTimestamp()
             });
-            const userdata = (collection(db, "users"));
-            const usersDocRefId = doc(userdata, String(Index));
-            const usersDocId = await getDoc(usersDocRefId);
+            const newDocid = signuserRef.id
+            console.log('No such document!');
+            console.log(newDocid)
             
-            setIsLoading(false);
-            navigate('/survey', {state: {confirmed:true ,email:Email, id:Index, Docid:newDocid, QuestionIdx: usersDocId.data().QuestionIdx}});
+            sendData(Index, Email,newDocid);
         } catch (e) {
             seterrormessage("データの送信に失敗しました．再送信してください")
             console.error(e);
         }
 
+        
             
-    }
+    };
     
 
     async function sendData(Index, Email, newDocid) {  
@@ -80,7 +72,8 @@ const Start = () => {
         const usersDocId = await getDoc(usersDocRefId);
         const signuserRef = doc(db, "signin", newDocid);
         await updateDoc(signuserRef, {
-            isread: true
+            isread: true,
+            newdocid: newDocid
         });
         setIsLoading(false);
         navigate('/survey', {state: {confirmed:true ,email:Email, id:Index, Docid:newDocid, QuestionIdx: usersDocId.data().QuestionIdx}});
