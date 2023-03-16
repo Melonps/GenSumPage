@@ -47,14 +47,17 @@ const Start = () => {
         try {
             const answerRef = await addDoc(answerdata, {
                 id: String(Index),
-                timestamp: serverTimestamp()
+                email: Email,
+                timestamp: serverTimestamp(),
+                iread: true
             })
             const newDocid = answerRef.id
             console.log(newDocid)
             await setDoc(doc(db, "meta_data", newDocid), {
-                    id: String(Index),
-                    email: Email,
-                    timestamp: serverTimestamp()
+                id: String(Index),
+                email: Email,
+                timestamp: serverTimestamp(),
+                iread: true
             });
             const userdata = (collection(db, "users"));
             const usersDocRefId = doc(userdata, String(Index));
