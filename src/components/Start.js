@@ -47,6 +47,7 @@ const Start = () => {
         try {
             const answerRef = await addDoc(answerdata, {
                 id: String(Index),
+                email: Email,
                 timestamp: serverTimestamp()
             })
             const newDocid = answerRef.id

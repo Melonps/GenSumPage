@@ -133,6 +133,7 @@ const Survey = () => {
                 time: time,
                 wholetime: wholetime,
                 newdocid: newdocid,
+                isend: true
             })
             await updateDoc(signuserRef, {
                 id: Id,
@@ -141,6 +142,7 @@ const Survey = () => {
                 phonenumber: phonenumber,
                 postcode: postcode,
                 newdocid: newdocid,
+                isend: true
             })
             setEnded(true)
             navigate('/thankyou')
