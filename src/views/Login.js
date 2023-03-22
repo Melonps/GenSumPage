@@ -1,6 +1,5 @@
 import React from 'react';
 import Start from '../components/Start'
-import MailTest from '../components/MailTest';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import '../style/login.css';
 

@@ -33,7 +33,6 @@ const Survey = () => {
     const Id = String(location.state['id']);
     const Questionarray = location.state['QuestionIdx']
     const newdocid = location.state['Docid']
-    const Email = location.state['email']
     //console.log(Questionarray)
 
     const [index, setIndex] = useState();
