@@ -7,8 +7,7 @@ import {
     getCountFromServer,
     updateDoc,
     getDoc,
-    addDoc,
-    setDoc
+    addDoc
 } from "firebase/firestore";
 import { Box,  TextField, Button, FormControlLabel, FormGroup, Checkbox, FormLabel } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
