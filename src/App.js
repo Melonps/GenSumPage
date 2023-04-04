@@ -7,6 +7,7 @@ import Survey from "./views/Survey";
 import Thankyou from './views/Thankyou';
 //import Working from './views/Working';
 import Notice from './views/Notice';
+import Log from './views/Log';
 
 const App = () => {
     window.onbeforeunload = function(e) {
@@ -18,7 +19,7 @@ const App = () => {
         <div className="container">
           <BrowserRouter>
             <Routes>
-              <Route path={`/`} element={<Notice/>} />
+              <Route path={`/`} element={<Log/>} />
               <Route path={`/login/`} element={<Login/>} />
               <Route path={`/survey/`} element={<Survey />} />
               <Route path={`/thankyou/`} element={<Thankyou />} />
