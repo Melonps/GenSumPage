@@ -79,8 +79,6 @@ const Login = () => {
                     </ol>
                     
                 </div>
-                
-                
                 <Start/>
             </div>
         </div>
