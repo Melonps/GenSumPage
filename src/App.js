@@ -7,7 +7,6 @@ import Survey from "./views/Survey";
 import Thankyou from './views/Thankyou';
 //import Working from './views/Working';
 import Notice from './views/Notice';
-
 const App = () => {
     window.onbeforeunload = function(e) {
       e.returnValue = "このページを離れてもよろしいですか？";
