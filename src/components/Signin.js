@@ -9,7 +9,6 @@ const Signin = () => {
     const [isChecked, setIsChecked] = useState(true)
     const provider = new GoogleAuthProvider();
     const [passError, setPassError] = useState(true)
-    const [pass, setPass] = useState('');
     const auth = getAuth();
     const handleLogin = async () => {
         try {
@@ -40,19 +39,27 @@ const Signin = () => {
 
 
     return (
-        <div>
-            <h1>ログイン</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <FormGroup>
-                <FormControlLabel control={<Checkbox />} onBlur={handleBlur} label="同意します。"
-                    onChange={() => toggleCheckbox(), (e) => {
-            setPass(e.target.value)
-         }/>
-            </FormGroup>
+    <div>
+        <h1>ログイン</h1>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <FormGroup>
+        <FormControlLabel
+            control={<Checkbox />}
+            onBlur={handleBlur}
+            label="同意します。"
+            onChange={toggleCheckbox}
+        />
+        </FormGroup>
 
-            <Button variant="contained" onClick={handleLogin} disabled = { passError || isChecked}>ログインして実験を始める </Button>
-            {passError && <p>{passError}</p>}
-        </div>
+        <Button
+        variant="contained"
+        onClick={handleLogin}
+        disabled={passError || isChecked}
+        >
+            ログインして実験を始める
+        </Button>
+        {passError && <p>{passError}</p>}
+    </div>
     );
 };
 

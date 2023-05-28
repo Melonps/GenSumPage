@@ -16,8 +16,8 @@ const Log = () => {
     const [Address, setAddress] = useState("");
     const [Email, setEmail] = useState("");
     const [Phonenumber, setPhonenumber] = useState("");
-    const [Postcord, setPostcode] = useState("aa");
-    const [Name, setName] = useState("aa");
+    const [Postcord, setPostcode] = useState("");
+    const [Name, setName] = useState("");
     const [index, setIndex] = useState(1);
     const [Ansdata, setAnsdata] = useState("");
     var result = []; // 最終的な二次元配列を入れるための配列
@@ -70,25 +70,25 @@ const Log = () => {
                     <Stack spacing={3}>
                         <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                             <EmailIcon  sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                            <TextField fullWidth required label="メールアドレス" value={ Email } defaultValue="" variant="standard" onChange={(e) => {
+                            <TextField fullWidth required label="メールアドレス" variant="standard" onChange={(e) => {
                                 
                             }}/>
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                             <DriveFileRenameOutlineIcon  sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                            <TextField fullWidth required label="お名前" value={ Name }  defaultValue="" variant="standard" onChange={(e) => {
+                            <TextField fullWidth required label="お名前"variant="standard" onChange={(e) => {
                                 
                             }}/>
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                             <LocationOnIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                            <TextField fullWidth required label="住所" value={ Address } defaultValue="" variant="standard" onChange={(e) => {
+                            <TextField fullWidth required label="住所"  variant="standard" onChange={(e) => {
                                 
                             }}/>
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                             <CallIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                            <TextField fullWidth required label="電話番号" defaultValue="" value={ Phonenumber} variant="standard" onChange={(e) => {
+                            <TextField fullWidth required label="電話番号" variant="standard" onChange={(e) => {
                                 
                         }} />
                         </Box> 
