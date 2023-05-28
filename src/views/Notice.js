@@ -21,7 +21,7 @@ const Notice= () => {
             <div className='consent'>
                 <div className='section'>
                     <h2>お知らせ</h2>
-                    <p>実験の受付期間が終了しました。多くの方にご参加いただき、誠にありがとうございました。</p>
+                    <p>実験の受付期間が終了しました。このページはアーカイブ状態となりますが、実験のご参加自体はして頂けます。</p>
                 </div>
                 <div className='section'>
                     <h2>１．研究の目的</h2>

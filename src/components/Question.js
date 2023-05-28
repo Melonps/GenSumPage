@@ -12,7 +12,6 @@ const Question = (props) => {
     const [reason, setreason] = useState("");
 
     const [startTime, setstartTime] = useState();
-    const seed = props.id
     const ex_num_str = props.id
     const ex_num = Number(ex_num_str)
     const question_idx = String(props.q_id)

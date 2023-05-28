@@ -21,7 +21,7 @@ import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
 import Carousel from 'react-bootstrap/Carousel';
 
 
-import s0 from '../assets/c.PNG'
+import s0 from '../assets/c0.PNG'
 import s1 from '../assets/c1.PNG'
 import s2 from '../assets/c2.PNG'
 import s4 from '../assets/c4.PNG'
