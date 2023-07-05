@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { db } from "../firebase/firebase";
+import React, { useState } from "react";
 import {
     collection,
     doc,
@@ -7,208 +6,242 @@ import {
     getCountFromServer,
     updateDoc,
     getDoc,
-    addDoc
+    addDoc,
 } from "firebase/firestore";
-import { Box,  TextField, Button, FormControlLabel, FormGroup, Checkbox, FormLabel } from '@mui/material'
-import { useNavigate } from 'react-router-dom';
-import EmailIcon from '@mui/icons-material/Email';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
-import Loading from './Loading';
-import '../style/start.css';
+import {
+    Box,
+    TextField,
+    Button,
+    FormControlLabel,
+    FormGroup,
+    Checkbox,
+    FormLabel,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import EmailIcon from "@mui/icons-material/Email";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import Loading from "./Loading";
+import "../style/start.css";
+import { db } from "../firebase/firebase";
 
 const Start = () => {
-    const [Email, setEmail] = useState("");
-    const [Error, setError] = useState("");
-    const [isChecked, setIsChecked] = useState(true)
-    const [isSended, setIsSended] = useState(false)
-    const [isChecked2, setIsChecked2] = useState(true)
-    const [isChecked3, setIsChecked3] = useState(true)
-    const [isChecked4, setIsChecked4] = useState(true)
-    const [responsedText, setresponsedText] = useState("")
-    const [password, setPassword] = useState("")
-    const [passError, setPassError] = useState(true)
-    const [mailError, setMailError] = useState(true)
-    const [isLoading, setIsLoading] = useState(false);
-    const [errormessage, seterrormessage] = useState();
-    
-    var pattern = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+.[A-Za-z0-9]+$/;
+    // State variables
+    const [email, setEmail] = useState(""); // メールアドレスのState
+    const [emailError, setEmailError] = useState(""); // メールアドレスのエラーメッセージのState
+    const [isConsented, setIsConsented] = useState(false); // 研究への同意のState
+    const [isSent, setIsSent] = useState(false); // メールが送信されたかどうかのState
+    const [password, setPassword] = useState(""); // パスワードのState
+    const [inputpassword, setInputPassword] = useState(""); // 入力されたパスワードのState
+    const [passwordError, setPasswordError] = useState(""); // パスワードのエラーメッセージのState
+    const [isLoading, setIsLoading] = useState(false); // ローディング状態のState
+    const [errorMessage, setErrorMessage] = useState(""); // エラーメッセージのState
+    const navigate = useNavigate(); // ページ遷移のためのフック
 
-    const navigate = useNavigate();
-
-    async function judge() {
-        setIsLoading(true);
-        
-        const signindata = collection(db, "signin");
-        const snapshot = await getCountFromServer(signindata);
-        console.log(snapshot.data().count + 1);
-        
-        const Index = snapshot.data().count + 1;
-        
-        try {
-            const signuserRef = await addDoc(signindata, {
-                id: String(Index),
-                email: Email,
-                timestamp: serverTimestamp()
-            });
-            const newDocid = signuserRef.id
-            console.log('No such document!');
-            console.log(newDocid)
-            
-            sendData(Index, Email,newDocid);
-        } catch (e) {
-            seterrormessage("データの送信に失敗しました．再送信してください")
-            console.error(e);
-        }
-
-        
-            
+    const validateEmail = (email) => {
+        // メールアドレスのバリデーション関数
+        const pattern =
+            /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@[A-Za-z0-9_.-]+\.[A-Za-z0-9]+$/;
+        return pattern.test(email);
     };
-    
 
-    async function sendData(Index, Email, newDocid) {  
-        const userdata = (collection(db, "users"));
-        const usersDocRefId = doc(userdata, String(Index));
-        const usersDocId = await getDoc(usersDocRefId);
-        const signuserRef = doc(db, "signin", newDocid);
-        await updateDoc(signuserRef, {
-            isread: true,
-            newdocid: newDocid
-        });
-        setIsLoading(false);
-        navigate('/survey', {state: {confirmed:true ,email:Email, id:Index, Docid:newDocid, QuestionIdx: usersDocId.data().QuestionIdx}});
-    }
+    const handleEmailChange = (e) => {
+        // メールアドレスの変更時の処理
+        setEmail(e.target.value);
+        setEmailError("");
+    };
 
-    const toggleCheckbox = () => {
-        setIsChecked(!isChecked)
-    }
-    const toggleCheckbox2 = () => {
-        setIsChecked2(!isChecked2)
-    }
-    
-    const handleBlur = (e) => {
-        const mail = e.target.value
-        if (!mail) {
-            setMailError('メールアドレスを入力してください')
-        } else if (!pattern.test(mail)) {   
-            setMailError('メールアドレスにマッチしていません')
-            setIsChecked3(true)
-        } 
-        else {
-            setMailError('')
-        }
-    }
-
-    const handleBlur2 = (e) => {
-        const pass = e.target.value
-        if (!pass) {
-            setPassError('パスワードを入力してください')
-        } else if (pass === password) {
-            
-        }
-        else {
-            setPassError('パスワードにマッチしていません')
-            setIsChecked4(true)
-        }
-    }
-
-    async function PostTest() {
-        setIsLoading(true);
-        try {
-            const response = await fetch('https://rivi4rocet2uj7sfn4o645vzuy0snggr.lambda-url.ap-northeast-1.on.aws/', {
-                method: 'POST',
-                mode: "cors",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(Email)
-            });
-            console.log("ここまでok1")
-            console.log(response)
-            if (!response.ok) {
-                console.log("ここまでok2")
-                console.error('response.ok:', response.ok);
-                console.error('esponse.status:', response.status);
-                console.error('esponse.statusText:', response.statusText);
-                setError("サーバーエラー");
-                
-                
-            } else {
-                console.log("ここまでok2.5")
-                const json_data = await response.text();
-                console.log(json_data);
-                console.log("ここまでok3")
-                setPassword(json_data)
-                return json_data;
-            }
-            
-        } catch (e) {
-            console.error(e);
-            console.log("ここまでok4")
-            setError("サーバーエラー");
-        }
-    }
-
-    async function sendMail() {
-        const responseData = await PostTest();
-        if (responseData) {
-            setIsLoading(false);
-            setIsSended(true);
-            setresponsedText("メールを送信しました。")
-            console.log(responseData);
+    const handlePasswordChange = (e) => {
+        // パスワードの変更時の処理
+        setInputPassword(e.target.value);
+        if (e.target.value === password) {
+            setPasswordError("");
         } else {
-            setIsLoading(false);
-            setError("再度ボタンを押してみてください。\nそれでも駄目なら、別のメールアドレスを使用するか、管理者に連絡してください。");
+            setPasswordError("パスワードが一致しません");
         }
-    }
+    };
 
+    const handleConsentChange = () => {
+        // 研究への同意の変更時の処理
+        setIsConsented(!isConsented);
+    };
 
+    const handleBlur = () => {
+        // メールアドレスのフォーカスが外れた時の処理
+        if (!email) {
+            setEmailError("メールアドレスを入力してください");
+        } else if (!validateEmail(email)) {
+            setEmailError("メールアドレスにマッチしていません");
+        }
+    };
+
+    const handleBlurPassword = () => {
+        // パスワードのフォーカスが外れた時の処理
+        if (!password) {
+            setPasswordError("パスワードを入力してください");
+        }
+    };
+
+    const sendMail = async () => {
+        // メール送信ボタンがクリックされた時の処理
+        if (!isConsented || emailError || isLoading) {
+            return;
+        }
+
+        setIsLoading(true);
+
+        try {
+            const response = await fetch(
+                "https://6pvtw18zob.execute-api.ap-northeast-1.amazonaws.com/default/SendMail",
+                {
+                    method: "POST",
+                    mode: "cors",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(email),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("サーバーエラー");
+            }
+
+            const data = await response.text();
+            setPassword(data);
+            setIsSent(true);
+        } catch (error) {
+            setErrorMessage(
+                "再度ボタンを押してみてください。\nそれでも駄目なら、別のメールアドレスを使用するか、管理者に連絡してください。"
+            );
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleStartClick = async () => {
+        // 実験開始ボタンがクリックされた時の処理
+        if (!isSent || passwordError || isLoading) {
+            return;
+        }
+
+        setIsLoading(true);
+
+        try {
+            // データベースの参照を作成
+            const signinData = collection(db, "signin");
+
+            // サーバーからデータのカウントを取得
+            const snapshot = await getCountFromServer(signinData);
+            const index = snapshot.data().count + 1;
+
+            // 新しいユーザーデータを追加
+            const signuserRef = await addDoc(signinData, {
+                id: String(index),
+                email: email,
+                timestamp: serverTimestamp(),
+            });
+
+            // 新しく追加されたドキュメントのIDを取得
+            const newDocid = signuserRef.id;
+
+            // 別のコレクションからユーザーデータを取得
+            const userData = collection(db, "users");
+            const usersDocRefId = doc(userData, String(index));
+            const usersDocId = await getDoc(usersDocRefId);
+
+            // サインイン済みユーザーのドキュメントを更新
+            const signeduserRef = doc(db, "signin", newDocid);
+            await updateDoc(signeduserRef, {
+                isread: true,
+                newdocid: newDocid,
+            });
+
+            // サーベイページに遷移し、必要な情報を渡す
+            navigate("/survey", {
+                state: {
+                    confirmed: true,
+                    email: email,
+                    id: index,
+                    Docid: newDocid,
+                    QuestionIdx: usersDocId.data().QuestionIdx,
+                },
+            });
+        } catch (error) {
+            setErrorMessage("データの送信に失敗しました．再送信してください");
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <>
             <FormGroup>
-                <FormControlLabel control={<Checkbox />} label="研究に協力することを承諾します。" onChange={() => toggleCheckbox()}/>
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={isConsented}
+                            onChange={handleConsentChange}
+                        />
+                    }
+                    label="研究に協力することを承諾します。"
+                />
             </FormGroup>
-            <FormLabel>メールアドレスを入力して、送信ボタンを押してください。<br/>そして送られたパスワードを入力してください。</FormLabel>
-            <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                <EmailIcon  sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                <TextField id="input-with-sx" label="メールアドレス" variant="standard" onBlur={handleBlur} type="email"
-                    onChange={(e) => {
-                        const email = e.target.value
-                        if (pattern.test(email)) {
-                            setIsChecked3(false)
-                        }
-                        setEmail(e.target.value)
-                    }} />
-                <Button variant="contained" onClick={sendMail} disabled = {isChecked || isChecked3 || isSended}>メール送信 </Button>
-                
+            <FormLabel>
+                メールアドレスを入力して、送信ボタンを押してください。
+                <br />
+                そして送られたパスワードを入力してください。
+            </FormLabel>
+            <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+                <EmailIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
+                <TextField
+                    id="input-with-sx"
+                    label="メールアドレス"
+                    variant="standard"
+                    onBlur={handleBlur}
+                    type="email"
+                    value={email}
+                    onChange={handleEmailChange}
+                    disabled={isConsented || isLoading}
+                />
+                <Button
+                    variant="contained"
+                    onClick={sendMail}
+                    disabled={!isConsented || emailError || isSent || isLoading}
+                >
+                    メール送信
+                </Button>
             </Box>
-            {mailError && <FormLabel>{mailError}</FormLabel>}
-            <FormLabel>{Error}</FormLabel>
-            <Box sx={{ p: 1 }} >
-                <FormLabel>{ responsedText }</FormLabel>
+            {emailError && <FormLabel>{emailError}</FormLabel>}
+            <FormLabel>{errorMessage}</FormLabel>
+            <Box sx={{ p: 1 }}>
+                <FormLabel>{isSent && "メールを送信しました。"}</FormLabel>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'flex-end' }} >
-                
-                <LockOpenIcon   sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                <TextField id="input-with-sx" label="password" variant="standard" onBlur={handleBlur2} type="password"
-                    onChange={(e) => {
-                        const pass = e.target.value
-                        if (pass === password) {
-                            setIsChecked4(false)
-                        }
-                    }} 
-                    />
-                <Button variant="contained" width="full" onClick={judge} disabled = { isChecked  || isChecked3 || isChecked4 || !isSended}>実験開始 </Button>
+            <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+                <LockOpenIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
+                <TextField
+                    id="input-with-sx"
+                    label="password"
+                    variant="standard"
+                    onBlur={handleBlurPassword}
+                    type="password"
+                    value={inputpassword}
+                    onChange={handlePasswordChange}
+                    disabled={!isSent || isLoading}
+                />
+                <Button
+                    variant="contained"
+                    width="full"
+                    onClick={handleStartClick}
+                    disabled={!isSent || passwordError || isLoading}
+                >
+                    実験開始
+                </Button>
             </Box>
-            
-            
-            {errormessage && <p>{errormessage}</p>}
-            {passError && <FormLabel>{passError}</FormLabel>}
-            { isLoading ? <Loading /> : <br/> }
+            {passwordError && <FormLabel>{passwordError}</FormLabel>}
+            {isLoading ? <Loading /> : <br />}
         </>
     );
 };
-
-
 
 export default Start;
