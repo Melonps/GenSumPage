@@ -168,7 +168,6 @@ const Survey = () => {
                     </p>
                 </div>
             </div>
-
             <div className="aboutline">
                 <li className="about_ex">
                     <Carousel
